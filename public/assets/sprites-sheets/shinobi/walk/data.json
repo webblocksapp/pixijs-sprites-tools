@@ -1,0 +1,69 @@
+{
+  "frames": {
+    "shinobi-walk-0.png": {
+      "frame": { "x": 0, "y": 0, "w": 128, "h": 128 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 128, "h": 128 },
+      "sourceSize": { "w": 128, "h": 128 }
+    },
+    "shinobi-walk-1.png": {
+      "frame": { "x": 128, "y": 0, "w": 128, "h": 128 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 128, "h": 128 },
+      "sourceSize": { "w": 128, "h": 128 }
+    },
+    "shinobi-walk-2.png": {
+      "frame": { "x": 256, "y": 0, "w": 128, "h": 128 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 128, "h": 128 },
+      "sourceSize": { "w": 128, "h": 128 }
+    },
+    "shinobi-walk-3.png": {
+      "frame": { "x": 384, "y": 0, "w": 128, "h": 128 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 128, "h": 128 },
+      "sourceSize": { "w": 128, "h": 128 }
+    },
+    "shinobi-walk-4.png": {
+      "frame": { "x": 512, "y": 0, "w": 128, "h": 128 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 128, "h": 128 },
+      "sourceSize": { "w": 128, "h": 128 }
+    },
+    "shinobi-walk-5.png": {
+      "frame": { "x": 640, "y": 0, "w": 128, "h": 128 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 128, "h": 128 },
+      "sourceSize": { "w": 128, "h": 128 }
+    },
+    "shinobi-walk-6.png": {
+      "frame": { "x": 768, "y": 0, "w": 128, "h": 128 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 128, "h": 128 },
+      "sourceSize": { "w": 128, "h": 128 }
+    },
+    "shinobi-walk-7.png": {
+      "frame": { "x": 896, "y": 0, "w": 128, "h": 128 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 128, "h": 128 },
+      "sourceSize": { "w": 128, "h": 128 }
+    }
+  },
+  "meta": {
+    "app": "https://www.codeandweb.com/texturepacker",
+    "version": "1.1",
+    "image": "main.png",
+    "format": "RGBA8888",
+    "size": { "w": 1024, "h": 128 },
+    "scale": "1",
+    "smartupdate": "$TexturePacker:SmartUpdate:ce24d9e4ed497edb8d2451e8d16f927e:19e3329bb21b7a4ae67ab37d601561f9:56426783630baebfa98c8c32e02f9e30$"
+  }
+}
