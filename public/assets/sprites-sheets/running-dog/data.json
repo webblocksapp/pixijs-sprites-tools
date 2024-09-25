@@ -1,0 +1,61 @@
+{
+  "frames": {
+    "1.png": {
+      "frame": { "x": 0, "y": 0, "w": 300, "h": 235 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 300, "h": 235 },
+      "sourceSize": { "w": 300, "h": 235 },
+      "anchor": { "x": 0, "y": 0 }
+    },
+    "2.png": {
+      "frame": { "x": 300, "y": 0, "w": 300, "h": 235 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 300, "h": 235 },
+      "sourceSize": { "w": 300, "h": 235 },
+      "anchor": { "x": 0, "y": 0 }
+    },
+    "3.png": {
+      "frame": { "x": 600, "y": 0, "w": 300, "h": 234 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 300, "h": 234 },
+      "sourceSize": { "w": 300, "h": 234 },
+      "anchor": { "x": 0, "y": 0 }
+    },
+    "4.png": {
+      "frame": { "x": 900, "y": 0, "w": 300, "h": 235 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 300, "h": 235 },
+      "sourceSize": { "w": 300, "h": 235 },
+      "anchor": { "x": 0, "y": 0 }
+    },
+    "5.png": {
+      "frame": { "x": 1200, "y": 0, "w": 300, "h": 235 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 300, "h": 235 },
+      "sourceSize": { "w": 300, "h": 235 },
+      "anchor": { "x": 0, "y": 0 }
+    },
+    "6.png": {
+      "frame": { "x": 1500, "y": 0, "w": 300, "h": 234 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 300, "h": 234 },
+      "sourceSize": { "w": 300, "h": 234 },
+      "anchor": { "x": 0, "y": 0 }
+    }
+  },
+  "meta": {
+    "app": "https://www.codeandweb.com/texturepacker",
+    "version": "1.1",
+    "image": "main.png",
+    "format": "RGBA8888",
+    "size": { "w": 1800, "h": 235 },
+    "scale": "1",
+    "smartupdate": "$TexturePacker:SmartUpdate:6364caf588677047e2d12ac2e1dabcef:43056009ef4612af64f9c368f739c074:ede587721cd5db59201de9606905d82f$"
+  }
+}

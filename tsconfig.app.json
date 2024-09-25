@@ -1,0 +1,41 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "baseUrl": "./",
+    "paths": {
+      "@api-clients/*": ["src/api-clients/*"],
+      "@assets/*": ["src/assets/*"],
+      "@components/*": ["src/components/*"],
+      "@constants/*": ["src/constants/*"],
+      "@examples/*": ["src/examples/*"],
+      "@hocs/*": ["src/hocs/*"],
+      "@icons/*": ["src/assets/icons/*"],
+      "@interfaces/*": ["src/interfaces/*"],
+      "@i18n/*": ["src/i18n/*"],
+      "@layouts/*": ["src/layouts/*"],
+      "@mocks/*": ["src/mocks/*"],
+      "@models/*": ["src/models/*"],
+      "@pages/*": ["src/pages/*"],
+      "@routes": ["src/routes"],
+      "@states": ["src/states"],
+      "@store": ["src/store.ts"],
+      "@themes/*": ["src/themes/*"],
+      "@utils/*": ["src/utils/*"]
+    }
+  },
+  "include": ["src"]
+}
