@@ -100,7 +100,6 @@ export const ShinobiSprite: React.FC = () => {
         appRef.current.stage.addChild(anim);
       }
 
-      // Añadir eventos de teclado
       window.addEventListener('keydown', handleKeyDown);
       window.addEventListener('keyup', handleKeyUp);
 
