@@ -18,6 +18,7 @@ export const createSprite = (
     direction: Direction | undefined;
     currentAnimation: Frame | undefined;
     waitingAnimation: boolean;
+    onKeyLogsChange: ((keys: Array<string>) => void) | undefined;
   } = {
     frames: [],
     keyLogs: [],
@@ -25,6 +26,7 @@ export const createSprite = (
     direction: undefined,
     currentAnimation: undefined,
     waitingAnimation: false,
+    onKeyLogsChange: undefined,
   };
 
   const loadAssets = async () => {
@@ -101,14 +103,24 @@ export const createSprite = (
     }
   };
 
-  const runAnimation = (keyCode: KeyCode) => {
+  const logKey = (keyCode: string) => {
+    if (state.keyLogs.some((item) => item === keyCode)) return;
+    state.keyLogs.push(keyCode);
+  };
+
+  const unlogKey = (keyCode: string) => {
+    state.keyLogs = state.keyLogs.filter((item) => keyCode !== item);
+  };
+
+  const runAnimation = (keyCode: string) => {
     if (state.waitingAnimation) {
       warn('Waiting animation');
       return;
     }
 
     state.currentAnimation = findAnimation(keyCode);
-    state.keyLogs.push(keyCode);
+    logKey(keyCode);
+    state.onKeyLogsChange?.(state.keyLogs);
 
     if (state.currentAnimation === undefined) {
       warn('No animation frame found');
@@ -127,6 +139,9 @@ export const createSprite = (
         setTimeout(() => {
           state.waitingAnimation = false;
           setDefaultAnimation();
+          const lastKey = getLastKey();
+
+          if (lastKey) runAnimation(lastKey);
         }, animationDurationInMs({ numberOfFrames: textures.length, speed, fps: app?.ticker.FPS || 60 }));
       }
     }
@@ -143,9 +158,22 @@ export const createSprite = (
     if (animation) setAnimation(animation.textures, animation.speed);
   };
 
+  const getLastKey = () => {
+    return state.keyLogs.slice(-1)[0];
+  };
+
+  const onKeyLogsChange = (fn: (keys: Array<string>) => void) =>
+    (state.onKeyLogsChange = fn);
+
   const onKeyUp = (event: KeyboardEvent) => {
-    state.keyLogs = state.keyLogs.filter((keyCode) => event.code !== keyCode);
+    unlogKey(event.code);
+    const lastKey = getLastKey();
+    state.onKeyLogsChange?.(state.keyLogs);
+
     if (state.waitingAnimation) return;
+    if (lastKey) {
+      return runAnimation(lastKey);
+    }
     if (state.keyLogs.length === 0) {
       setDefaultAnimation();
     }
@@ -179,6 +207,7 @@ export const createSprite = (
     initialize,
     initEventListeners,
     removeEventListeners,
+    onKeyLogsChange,
     data: state,
   };
 };

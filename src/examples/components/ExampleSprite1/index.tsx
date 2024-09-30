@@ -89,6 +89,9 @@ export const ExampleSprite1: React.FC = () => {
       }
 
       sprite.initEventListeners();
+      sprite.onKeyLogsChange((logs) => {
+        console.log(logs);
+      });
     })();
 
     return () => {
