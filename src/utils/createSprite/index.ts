@@ -91,13 +91,8 @@ export const createSprite = (sheet: SpriteSheet) => {
 
       if (state.currentAnimation === undefined) {
         console.warn('No animation frame found');
-      } else if (event.code === KeyCode.ArrowRight) {
+      } else {
         state.direction = state.currentAnimation.direction;
-      } else if (event.key === KeyCode.ArrowLeft) {
-        state.direction = state.currentAnimation.direction;
-      }
-
-      if (state.currentAnimation) {
         flipSprite(state.direction);
         setAnimation(
           state.currentAnimation.textures,
