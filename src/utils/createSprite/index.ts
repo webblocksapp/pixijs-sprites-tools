@@ -2,9 +2,14 @@ import { KeyCode } from '@constants/enum';
 import { Direction } from '@interfaces/Direction';
 import { Frame } from '@interfaces/Frame';
 import { SpriteSheet } from '@interfaces/SpriteSheet';
-import { AnimatedSprite, Assets, Texture } from 'pixi.js';
+import { animationDurationInMs } from '@utils/animationDuration';
+import { AnimatedSprite, Application, Assets, Texture } from 'pixi.js';
 
-export const createSprite = (sheet: SpriteSheet) => {
+export const createSprite = (
+  sheet: SpriteSheet,
+  params: { app: Application | null; debug?: boolean }
+) => {
+  const { app, debug } = params;
   const assetsPaths = sheet.assets.map((item) => item.path);
   const state: {
     frames: Array<Frame>;
@@ -12,12 +17,14 @@ export const createSprite = (sheet: SpriteSheet) => {
     anim: AnimatedSprite | undefined;
     direction: Direction | undefined;
     currentAnimation: Frame | undefined;
+    waitingAnimation: boolean;
   } = {
     frames: [],
     keyLogs: [],
     anim: undefined,
     direction: undefined,
     currentAnimation: undefined,
+    waitingAnimation: false,
   };
 
   const loadAssets = async () => {
@@ -43,6 +50,7 @@ export const createSprite = (sheet: SpriteSheet) => {
               speed: animation.speed,
               default: animation.default,
               direction: animation.direction,
+              wait: animation.wait,
               textures: [Texture.from(frameKey)],
             };
           }
@@ -57,7 +65,7 @@ export const createSprite = (sheet: SpriteSheet) => {
 
   const flipSprite = (direction: Direction | undefined) => {
     if (state.anim === undefined) {
-      console.warn('No animation found to flip.');
+      warn('No animation found to flip.');
     } else if (state.anim && (direction === 'right' || direction === 'left')) {
       state.anim.scale.x = direction === 'right' ? 1 : -1;
     } else {
@@ -74,9 +82,9 @@ export const createSprite = (sheet: SpriteSheet) => {
     speed: number | undefined
   ) => {
     if (frames === undefined) {
-      console.warn('Undefined frames.');
+      warn('Undefined frames.');
     } else if (speed === undefined) {
-      console.warn('Undefined animation speed.');
+      warn('Undefined animation speed.');
     } else if (state.anim) {
       state.anim.textures = frames;
       state.anim.animationSpeed = speed;
@@ -84,30 +92,60 @@ export const createSprite = (sheet: SpriteSheet) => {
     }
   };
 
-  const onKeyDown = (event: KeyboardEvent) => {
-    if (!event.repeat) {
-      state.currentAnimation = findAnimation(event.code as KeyCode);
-      state.keyLogs.push(event.code);
+  const updateAnimationDirection = () => {
+    const direction = state.currentAnimation?.direction;
+    if (direction) {
+      state.direction = direction;
+    }
+  };
 
-      if (state.currentAnimation === undefined) {
-        console.warn('No animation frame found');
-      } else {
-        state.direction = state.currentAnimation.direction;
-        flipSprite(state.direction);
-        setAnimation(
-          state.currentAnimation.textures,
-          state.currentAnimation.speed
-        );
+  const runAnimation = (keyCode: KeyCode) => {
+    if (state.waitingAnimation) {
+      warn('Waiting animation');
+      return;
+    }
+
+    state.currentAnimation = findAnimation(keyCode);
+    state.keyLogs.push(keyCode);
+
+    if (state.currentAnimation === undefined) {
+      warn('No animation frame found');
+    } else {
+      updateAnimationDirection();
+      flipSprite(state.direction);
+      setAnimation(
+        state.currentAnimation.textures,
+        state.currentAnimation.speed
+      );
+
+      if (state.currentAnimation?.wait) {
+        state.waitingAnimation = true;
+        const { textures, speed } = state.currentAnimation;
+
+        setTimeout(() => {
+          state.waitingAnimation = false;
+          setDefaultAnimation();
+        }, animationDurationInMs({ numberOfFrames: textures.length, speed, fps: app?.ticker.FPS || 60 }));
       }
     }
   };
 
-  const onKeyUp = (event: KeyboardEvent) => {
-    state.keyLogs = state.keyLogs.filter((keyCode) => event.code !== keyCode);
+  const onKeyDown = (event: KeyboardEvent) => {
+    if (!event.repeat) {
+      runAnimation(event.code as KeyCode);
+    }
+  };
 
+  const setDefaultAnimation = () => {
+    const animation = state.frames.find((item) => item.default);
+    if (animation) setAnimation(animation.textures, animation.speed);
+  };
+
+  const onKeyUp = (event: KeyboardEvent) => {
+    if (state.waitingAnimation) return;
+    state.keyLogs = state.keyLogs.filter((keyCode) => event.code !== keyCode);
     if (state.keyLogs.length === 0) {
-      const animation = state.frames.find((item) => item.default);
-      if (animation) setAnimation(animation.textures, animation.speed);
+      setDefaultAnimation();
     }
   };
 
@@ -129,6 +167,10 @@ export const createSprite = (sheet: SpriteSheet) => {
   const removeEventListeners = () => {
     window.removeEventListener('keydown', onKeyDown);
     window.removeEventListener('keyup', onKeyUp);
+  };
+
+  const warn: typeof console.log = (...args) => {
+    debug && console.warn(...args);
   };
 
   return {

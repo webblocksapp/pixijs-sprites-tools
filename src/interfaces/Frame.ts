@@ -6,5 +6,6 @@ export type Frame = {
   textures: Texture[];
   speed: number;
   default?: boolean;
+  wait?: boolean;
   direction: Direction | undefined;
 };

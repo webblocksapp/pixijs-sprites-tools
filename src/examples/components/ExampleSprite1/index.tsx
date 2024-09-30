@@ -32,36 +32,50 @@ export const ExampleSprite1: React.FC = () => {
   };
 
   useEffect(() => {
-    const sprite = createSprite({
-      assets: [
-        {
-          path: '/assets/sprites-sheets/shinobi/walk/data.json',
-          animations: [
-            {
-              keyCode: KeyCode.ArrowRight,
-              direction: 'right',
-              speed: 0.2,
-              default: false,
-            },
-            {
-              keyCode: KeyCode.ArrowLeft,
-              direction: 'left',
-              speed: 0.2,
-              default: false,
-            },
-          ],
-        },
-        {
-          path: '/assets/sprites-sheets/shinobi/idle/data.json',
-          animations: [
-            {
-              speed: 0.2,
-              default: true,
-            },
-          ],
-        },
-      ],
-    });
+    const sprite = createSprite(
+      {
+        assets: [
+          {
+            path: '/assets/sprites-sheets/shinobi/walk/data.json',
+            animations: [
+              {
+                keyCode: KeyCode.D,
+                direction: 'right',
+                speed: 0.2,
+                default: false,
+              },
+              {
+                keyCode: KeyCode.A,
+                direction: 'left',
+                speed: 0.2,
+                default: false,
+              },
+            ],
+          },
+          {
+            path: '/assets/sprites-sheets/shinobi/idle/data.json',
+            animations: [
+              {
+                speed: 0.2,
+                default: true,
+              },
+            ],
+          },
+          {
+            path: '/assets/sprites-sheets/shinobi/attack-1/data.json',
+            animations: [
+              {
+                keyCode: KeyCode.G,
+                speed: 0.2,
+                default: false,
+                wait: true,
+              },
+            ],
+          },
+        ],
+      },
+      { app: appRef.current, debug: true }
+    );
 
     (async () => {
       cleanScene();

@@ -6,6 +6,7 @@ export type SpriteSheet = {
     animations: Array<{
       direction?: Direction;
       keyCode?: string;
+      wait?: boolean;
       default: boolean;
       speed: number;
     }>;
