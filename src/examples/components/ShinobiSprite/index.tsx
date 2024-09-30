@@ -63,11 +63,11 @@ export const ShinobiSprite: React.FC = () => {
   };
 
   const handleKeyDown = (event: KeyboardEvent) => {
-    if (event.key === 'ArrowRight' && !event.repeat) {
+    if (event.code === 'ArrowRight' && !event.repeat) {
       direction.current = 'right';
       flipSprite('right');
       setAnimation(walkFrames.current, 0.2);
-    } else if (event.key === 'ArrowLeft' && !event.repeat) {
+    } else if (event.code === 'ArrowLeft' && !event.repeat) {
       direction.current = 'left';
       flipSprite('left');
       setAnimation(walkFrames.current, 0.2);

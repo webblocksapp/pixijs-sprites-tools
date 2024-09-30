@@ -1,35 +1,22 @@
+import { KeyCode } from '@constants/enum';
+import { Direction } from '@interfaces/Direction';
+import { Frame } from '@interfaces/Frame';
+import { SpriteSheet } from '@interfaces/SpriteSheet';
 import { AnimatedSprite, Assets, Texture } from 'pixi.js';
-
-type SpriteSheet = {
-  assets: Array<{
-    path: string;
-    animations: [
-      {
-        label: string;
-        numberOfFrames: number;
-        type: 'movement' | 'action' | 'transition';
-        keyboardKey: string;
-        flip: boolean;
-        default: boolean;
-        speed: number;
-      }
-    ];
-  }>;
-};
-type Frame = {
-  label: string;
-  keyboardKey: string;
-  textures: Texture[];
-  speed: number;
-  default: boolean;
-};
 
 export const createSprite = (sheet: SpriteSheet) => {
   const assetsPaths = sheet.assets.map((item) => item.path);
   const state: {
     frames: Array<Frame>;
-    anim: AnimatedSprite | null;
-  } = { frames: [], anim: null };
+    anim: AnimatedSprite | undefined;
+    direction: Direction | undefined;
+    currentAnimation: Frame | undefined;
+  } = {
+    frames: [],
+    anim: undefined,
+    direction: undefined,
+    currentAnimation: undefined,
+  };
 
   const loadAssets = async () => {
     await Assets.load(assetsPaths);
@@ -37,7 +24,7 @@ export const createSprite = (sheet: SpriteSheet) => {
     for (const asset of sheet.assets) {
       for (const animation of asset.animations) {
         for (let i = 0; i < animation.numberOfFrames; i++) {
-          let frame = state.frames.find(
+          const frame = state.frames.find(
             (item) => item.label === animation.label
           );
           if (frame) {
@@ -45,9 +32,10 @@ export const createSprite = (sheet: SpriteSheet) => {
           } else {
             state.frames.push({
               label: animation.label,
-              keyboardKey: animation.keyboardKey,
+              keyCode: animation.keyCode,
               speed: animation.speed,
               default: animation.default,
+              direction: animation.direction,
               textures: [Texture.from(`${animation.label}-${i}.png`)],
             });
           }
@@ -56,7 +44,56 @@ export const createSprite = (sheet: SpriteSheet) => {
     }
   };
 
-  const onKeyDown = () => {};
+  const flipSprite = (direction: Direction | undefined) => {
+    if (state.anim === undefined) {
+      console.warn('No animation found to flip.');
+    } else if (state.anim && (direction === 'right' || direction === 'left')) {
+      state.anim.x = direction === 'right' ? 1 : -1;
+    } else {
+      state.anim.x = 1;
+    }
+  };
+
+  const findAnimation = (keycode: KeyCode) => {
+    return state.frames.find((item) => item.keyCode === keycode);
+  };
+
+  const setAnimation = (
+    frames: Texture[] | undefined,
+    speed: number | undefined
+  ) => {
+    if (frames === undefined) {
+      console.warn('Undefined frames.');
+    } else if (speed === undefined) {
+      console.warn('Undefined animation speed.');
+    } else if (state.anim) {
+      state.anim.textures = frames;
+      state.anim.animationSpeed = speed;
+      state.anim.play();
+    }
+  };
+
+  const onKeyDown = (event: KeyboardEvent) => {
+    if (!event.repeat) {
+      state.currentAnimation = findAnimation(event.code as KeyCode);
+    }
+
+    if (state.currentAnimation === undefined) {
+      console.warn('No animation frame found');
+    } else if (event.code === KeyCode.ArrowRight && !event.repeat) {
+      state.direction = state.currentAnimation.direction;
+    } else if (event.key === KeyCode.ArrowLeft && !event.repeat) {
+      state.direction = state.currentAnimation.direction;
+    }
+
+    if (state.currentAnimation) {
+      flipSprite(state.direction);
+      setAnimation(
+        state.currentAnimation.textures,
+        state.currentAnimation.speed
+      );
+    }
+  };
 
   const onKeyUp = () => {};
 
@@ -66,7 +103,8 @@ export const createSprite = (sheet: SpriteSheet) => {
     if (defaultFrames === undefined) {
       throw new Error('No default animation assigned inside the SpriteSheet.');
     }
-    new AnimatedSprite(defaultFrames.textures);
+    console.log(defaultFrames.textures);
+    state.anim = new AnimatedSprite(defaultFrames.textures);
   };
 
   const initEventListeners = () => {
@@ -83,5 +121,6 @@ export const createSprite = (sheet: SpriteSheet) => {
     initialize,
     initEventListeners,
     removeEventListeners,
+    data: state,
   };
 };
