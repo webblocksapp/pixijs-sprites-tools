@@ -142,8 +142,8 @@ export const createSprite = (
   };
 
   const onKeyUp = (event: KeyboardEvent) => {
-    if (state.waitingAnimation) return;
     state.keyLogs = state.keyLogs.filter((keyCode) => event.code !== keyCode);
+    if (state.waitingAnimation) return;
     if (state.keyLogs.length === 0) {
       setDefaultAnimation();
     }
