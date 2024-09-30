@@ -5,7 +5,7 @@ export type SpriteSheet = {
     path: string;
     animations: Array<{
       direction?: Direction;
-      keyCode?: string;
+      keysCodesCombination?: string;
       wait?: boolean;
       default: boolean;
       speed: number;

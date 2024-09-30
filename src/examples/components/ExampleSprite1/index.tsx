@@ -39,13 +39,13 @@ export const ExampleSprite1: React.FC = () => {
             path: '/assets/sprites-sheets/shinobi/walk/data.json',
             animations: [
               {
-                keyCode: KeyCode.D,
+                keysCodesCombination: KeyCode.D,
                 direction: 'right',
                 speed: 0.2,
                 default: false,
               },
               {
-                keyCode: KeyCode.A,
+                keysCodesCombination: KeyCode.A,
                 direction: 'left',
                 speed: 0.2,
                 default: false,
@@ -65,7 +65,7 @@ export const ExampleSprite1: React.FC = () => {
             path: '/assets/sprites-sheets/shinobi/attack-1/data.json',
             animations: [
               {
-                keyCode: KeyCode.G,
+                keysCodesCombination: KeyCode.G,
                 speed: 0.2,
                 default: false,
                 wait: true,

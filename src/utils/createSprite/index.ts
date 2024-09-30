@@ -46,7 +46,7 @@ export const createSprite = (
             frames[counter].textures.push(Texture.from(frameKey));
           } else {
             frames[counter] = {
-              keyCode: animation.keyCode,
+              keysCodesCombination: animation.keysCodesCombination,
               speed: animation.speed,
               default: animation.default,
               direction: animation.direction,
@@ -73,8 +73,10 @@ export const createSprite = (
     }
   };
 
-  const findAnimation = (keycode: KeyCode) => {
-    return state.frames.find((item) => item.keyCode === keycode);
+  const findAnimation = (keysCodesCombination: string) => {
+    return state.frames.find(
+      (item) => item.keysCodesCombination === keysCodesCombination
+    );
   };
 
   const setAnimation = (
