@@ -19,6 +19,8 @@ export const createSprite = (
     currentAnimation: Frame | undefined;
     waitingAnimation: boolean;
     onKeyLogsChange: ((keys: Array<string>) => void) | undefined;
+    prevPressedKey: string | undefined;
+    lastPressedKey: string | undefined;
   } = {
     frames: [],
     keyLogs: [],
@@ -27,6 +29,8 @@ export const createSprite = (
     currentAnimation: undefined,
     waitingAnimation: false,
     onKeyLogsChange: undefined,
+    prevPressedKey: undefined,
+    lastPressedKey: undefined,
   };
 
   const loadAssets = async () => {
@@ -112,6 +116,18 @@ export const createSprite = (
     state.keyLogs = state.keyLogs.filter((item) => keyCode !== item);
   };
 
+  const setPrevPressedKey = (keyCode: string) => {
+    state.prevPressedKey = keyCode;
+  };
+
+  const setLastPressedKey = (keyCode: string) => {
+    state.lastPressedKey = keyCode;
+  };
+
+  const setWaitingAnimation = (flag: boolean) => {
+    state.waitingAnimation = flag;
+  };
+
   const runAnimation = (keyCode: string) => {
     if (state.waitingAnimation) {
       warn('Waiting animation');
@@ -133,11 +149,11 @@ export const createSprite = (
       );
 
       if (state.currentAnimation?.wait) {
-        state.waitingAnimation = true;
+        setWaitingAnimation(true);
         const { textures, speed } = state.currentAnimation;
 
         setTimeout(() => {
-          state.waitingAnimation = false;
+          setWaitingAnimation(false);
           setDefaultAnimation();
           const lastKey = getLastKey();
 
@@ -149,6 +165,14 @@ export const createSprite = (
 
   const onKeyDown = (event: KeyboardEvent) => {
     if (!event.repeat) {
+      if (
+        state.prevPressedKey !== event.code &&
+        state.lastPressedKey !== event.code
+      ) {
+        setWaitingAnimation(false);
+      }
+
+      setPrevPressedKey(event.code);
       runAnimation(event.code as KeyCode);
     }
   };
@@ -166,9 +190,11 @@ export const createSprite = (
     (state.onKeyLogsChange = fn);
 
   const onKeyUp = (event: KeyboardEvent) => {
+    setLastPressedKey(event.code);
     unlogKey(event.code);
     const lastKey = getLastKey();
     state.onKeyLogsChange?.(state.keyLogs);
+    setPrevPressedKey(lastKey);
 
     if (state.waitingAnimation) return;
     if (lastKey) {
