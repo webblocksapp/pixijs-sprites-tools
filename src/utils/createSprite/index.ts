@@ -8,11 +8,13 @@ export const createSprite = (sheet: SpriteSheet) => {
   const assetsPaths = sheet.assets.map((item) => item.path);
   const state: {
     frames: Array<Frame>;
+    keyLogs: Array<string>;
     anim: AnimatedSprite | undefined;
     direction: Direction | undefined;
     currentAnimation: Frame | undefined;
   } = {
     frames: [],
+    keyLogs: [],
     anim: undefined,
     direction: undefined,
     currentAnimation: undefined,
@@ -20,37 +22,46 @@ export const createSprite = (sheet: SpriteSheet) => {
 
   const loadAssets = async () => {
     await Assets.load(assetsPaths);
+    const assets = Assets.get(assetsPaths);
+    const frames: Frame[] = [];
+    let counter = 0;
 
-    for (const asset of sheet.assets) {
-      for (const animation of asset.animations) {
-        for (let i = 0; i < animation.numberOfFrames; i++) {
-          const frame = state.frames.find(
-            (item) => item.label === animation.label
-          );
-          if (frame) {
-            frame.textures.push(Texture.from(`${animation.label}-${i}.png`));
+    for (let i = 0; i < Object.keys(assets).length; i++) {
+      const animations = sheet.assets[i].animations;
+
+      for (const animation of animations) {
+        const frame = assets[String(i)] as { _frameKeys: string[] };
+        const frameKeys = frame._frameKeys;
+
+        for (let j = 0; j < frameKeys.length; j++) {
+          const frameKey = frameKeys[j];
+          if (frames[counter]) {
+            frames[counter].textures.push(Texture.from(frameKey));
           } else {
-            state.frames.push({
-              label: animation.label,
+            frames[counter] = {
               keyCode: animation.keyCode,
               speed: animation.speed,
               default: animation.default,
               direction: animation.direction,
-              textures: [Texture.from(`${animation.label}-${i}.png`)],
-            });
+              textures: [Texture.from(frameKey)],
+            };
           }
         }
+
+        counter++;
       }
     }
+
+    state.frames = frames;
   };
 
   const flipSprite = (direction: Direction | undefined) => {
     if (state.anim === undefined) {
       console.warn('No animation found to flip.');
     } else if (state.anim && (direction === 'right' || direction === 'left')) {
-      state.anim.x = direction === 'right' ? 1 : -1;
+      state.anim.scale.x = direction === 'right' ? 1 : -1;
     } else {
-      state.anim.x = 1;
+      state.anim.scale.x = 1;
     }
   };
 
@@ -76,26 +87,34 @@ export const createSprite = (sheet: SpriteSheet) => {
   const onKeyDown = (event: KeyboardEvent) => {
     if (!event.repeat) {
       state.currentAnimation = findAnimation(event.code as KeyCode);
-    }
+      state.keyLogs.push(event.code);
 
-    if (state.currentAnimation === undefined) {
-      console.warn('No animation frame found');
-    } else if (event.code === KeyCode.ArrowRight && !event.repeat) {
-      state.direction = state.currentAnimation.direction;
-    } else if (event.key === KeyCode.ArrowLeft && !event.repeat) {
-      state.direction = state.currentAnimation.direction;
-    }
+      if (state.currentAnimation === undefined) {
+        console.warn('No animation frame found');
+      } else if (event.code === KeyCode.ArrowRight) {
+        state.direction = state.currentAnimation.direction;
+      } else if (event.key === KeyCode.ArrowLeft) {
+        state.direction = state.currentAnimation.direction;
+      }
 
-    if (state.currentAnimation) {
-      flipSprite(state.direction);
-      setAnimation(
-        state.currentAnimation.textures,
-        state.currentAnimation.speed
-      );
+      if (state.currentAnimation) {
+        flipSprite(state.direction);
+        setAnimation(
+          state.currentAnimation.textures,
+          state.currentAnimation.speed
+        );
+      }
     }
   };
 
-  const onKeyUp = () => {};
+  const onKeyUp = (event: KeyboardEvent) => {
+    state.keyLogs = state.keyLogs.filter((keyCode) => event.code !== keyCode);
+
+    if (state.keyLogs.length === 0) {
+      const animation = state.frames.find((item) => item.default);
+      if (animation) setAnimation(animation.textures, animation.speed);
+    }
+  };
 
   const initialize = async () => {
     await loadAssets();
@@ -103,8 +122,8 @@ export const createSprite = (sheet: SpriteSheet) => {
     if (defaultFrames === undefined) {
       throw new Error('No default animation assigned inside the SpriteSheet.');
     }
-    console.log(defaultFrames.textures);
     state.anim = new AnimatedSprite(defaultFrames.textures);
+    state.anim.anchor.set(0.5);
   };
 
   const initEventListeners = () => {

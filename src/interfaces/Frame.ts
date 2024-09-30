@@ -2,10 +2,9 @@ import { Texture } from 'pixi.js';
 import { Direction } from '@interfaces/Direction';
 
 export type Frame = {
-  label: string;
-  keyCode: string;
+  keyCode: string | undefined;
   textures: Texture[];
   speed: number;
   default?: boolean;
-  direction: Direction;
+  direction: Direction | undefined;
 };
