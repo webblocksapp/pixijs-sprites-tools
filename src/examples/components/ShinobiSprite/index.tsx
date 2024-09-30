@@ -86,7 +86,6 @@ export const ShinobiSprite: React.FC = () => {
       await startScene();
       await loadAssets();
 
-      // Crear el sprite animado con la animación idle por defecto
       const anim = new AnimatedSprite(idleFrames.current);
       anim.x = appRef.current!.screen.width / 2;
       anim.y = appRef.current!.screen.height / 2;
