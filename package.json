@@ -1,6 +1,5 @@
 {
   "name": "pixijs-sprites-tools",
-  "private": true,
   "version": "0.0.0",
   "type": "module",
   "source": "./src/index.ts",
