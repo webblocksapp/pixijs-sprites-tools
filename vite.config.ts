@@ -20,7 +20,12 @@ export default defineConfig({
       overlay: false,
     }),
     tsconfigPaths(),
-    dts({ include: 'src', exclude: 'src/examples' }),
+    dts({
+      rollupTypes: true,
+      tsconfigPath: './tsconfig.app.json',
+      include: 'src',
+      exclude: 'src/examples',
+    }),
   ],
   build: {
     minify: false,
