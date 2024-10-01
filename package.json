@@ -18,7 +18,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
@@ -55,6 +55,7 @@
     "typescript-eslint": "^8.0.1",
     "vite": "^5.4.1",
     "vite-plugin-checker": "^0.8.0",
+    "vite-plugin-dts": "^4.2.3",
     "vite-tsconfig-paths": "^5.0.1"
   },
   "eslintConfig": {
