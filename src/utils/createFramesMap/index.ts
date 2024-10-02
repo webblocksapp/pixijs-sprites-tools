@@ -39,6 +39,7 @@ export const createFramesMap = async (args: {
     currentWidth = currentWidth + frameWidth;
 
     if (currentItem % numFramesPerRow === 0) {
+      currentWidth = 0;
       currentHeight = currentHeight + frameHeight;
     }
 
