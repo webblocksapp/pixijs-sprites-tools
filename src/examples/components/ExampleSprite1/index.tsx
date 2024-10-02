@@ -36,7 +36,7 @@ export const ExampleSprite1: React.FC = () => {
       {
         assets: [
           {
-            path: '/assets/sprites-sheets/shinobi/walk/data.json',
+            config: { src: '/assets/sprites-sheets/shinobi/walk/data.json' },
             animations: [
               {
                 keysCodesCombination: KeyCode.D,
@@ -53,7 +53,7 @@ export const ExampleSprite1: React.FC = () => {
             ],
           },
           {
-            path: '/assets/sprites-sheets/shinobi/idle/data.json',
+            config: { src: '/assets/sprites-sheets/shinobi/idle/data.json' },
             animations: [
               {
                 speed: 0.2,
@@ -62,7 +62,9 @@ export const ExampleSprite1: React.FC = () => {
             ],
           },
           {
-            path: '/assets/sprites-sheets/shinobi/attack-1/data.json',
+            config: {
+              src: '/assets/sprites-sheets/shinobi/attack-1/data.json',
+            },
             animations: [
               {
                 keysCodesCombination: KeyCode.G,

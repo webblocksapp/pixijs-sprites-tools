@@ -6,5 +6,6 @@ export type FramesMap = {
   };
   meta: {
     image: string;
+    totalFrames: number;
   };
 };

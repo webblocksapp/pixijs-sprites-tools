@@ -10,7 +10,7 @@ export const createSprite = (
   params: { app: Application | null; debug?: boolean }
 ) => {
   const { app, debug } = params;
-  const assetsPaths = sheet.assets.map((item) => item.path);
+  const assetsConfigs = sheet.assets.map((item) => item.config);
   const state: {
     frames: Array<Frame>;
     keyLogs: Array<string>;
@@ -34,8 +34,9 @@ export const createSprite = (
   };
 
   const loadAssets = async () => {
-    await Assets.load(assetsPaths);
-    const assets = Assets.get(assetsPaths);
+    await Assets.load(assetsConfigs);
+    const assets = Assets.get(assetsConfigs.map((item) => item.src));
+    console.log(assets);
     const frames: Frame[] = [];
     let counter = 0;
 

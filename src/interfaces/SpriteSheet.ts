@@ -2,7 +2,12 @@ import { Direction } from '@interfaces/Direction';
 
 export type SpriteSheet = {
   assets: Array<{
-    path: string;
+    config: {
+      src: string;
+      format?: string;
+      loadParser?: string;
+      framesNumber?: number;
+    };
     animations: Array<{
       direction?: Direction;
       keysCodesCombination?: string;

@@ -4,15 +4,16 @@ import { getImageDimensions } from '@utils/getImageDimensions';
 export const createFramesMap = async (args: {
   image: Blob;
   imageExtension: string;
+  imageUrl: string;
   numRows: number;
   numCols: number;
 }) => {
-  const { image, imageExtension, numCols, numRows } = args;
+  const { image, imageExtension, imageUrl, numCols, numRows } = args;
   const imageDimensions = await getImageDimensions(image);
   const frameHeight = imageDimensions.height / numRows;
   const frameWidth = imageDimensions.width / numCols;
   const numFramesPerRow = imageDimensions.width / frameWidth;
-  const numFrames = numFramesPerRow * numRows;
+  const totalFrames = numFramesPerRow * numRows;
 
   let currentWidth = 0;
   let currentHeight = 0;
@@ -21,11 +22,12 @@ export const createFramesMap = async (args: {
   const framesMap: FramesMap = {
     frames: {},
     meta: {
-      image: `main.${imageExtension}`,
+      image: imageUrl,
+      totalFrames,
     },
   };
 
-  for (let i = 0; i < numFrames; i++) {
+  for (let i = 0; i < totalFrames; i++) {
     framesMap.frames[`${i}.${imageExtension}`] = {
       frame: {
         x: currentWidth,
