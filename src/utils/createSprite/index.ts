@@ -37,7 +37,18 @@ export const createSprite = (
       const image = new Image();
       image.src = url;
       image.onload = () => {
-        const texture = Texture.from(image);
+        const canvas = document.createElement('canvas');
+        canvas.width = image.width;
+        canvas.height = image.height;
+        const ctx = canvas.getContext('2d');
+        if (!ctx) {
+          reject(new Error('Failed to get 2D context from canvas.'));
+          return;
+        }
+
+        ctx.drawImage(image, 0, 0);
+        const texture = Texture.from(canvas);
+
         resolve(texture);
       };
       image.onerror = (error) => {
@@ -248,6 +259,8 @@ export const createSprite = (
     }
     state.anim = new AnimatedSprite(defaultFrames.textures);
     state.anim.anchor.set(0.5);
+    state.anim.animationSpeed = defaultFrames.speed;
+    state.anim.play();
   };
 
   const initEventListeners = () => {
