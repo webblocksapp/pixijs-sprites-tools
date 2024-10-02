@@ -143,6 +143,7 @@ export const MapCreationFromInput: Story = {
         {
           assets: [
             {
+              label: 'Any animation',
               framesMap,
               animations: [
                 {
