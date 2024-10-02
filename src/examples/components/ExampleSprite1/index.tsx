@@ -36,6 +36,7 @@ export const ExampleSprite1: React.FC = () => {
       {
         assets: [
           {
+            label: 'Walk',
             framesMap: {
               frames: {
                 '0.png': {
@@ -70,12 +71,14 @@ export const ExampleSprite1: React.FC = () => {
             },
             animations: [
               {
+                label: 'Walk right',
                 keysCodesCombination: KeyCode.D,
                 direction: 'right',
                 speed: 0.2,
                 default: false,
               },
               {
+                label: 'Walk left',
                 keysCodesCombination: KeyCode.A,
                 direction: 'left',
                 speed: 0.2,
@@ -84,6 +87,7 @@ export const ExampleSprite1: React.FC = () => {
             ],
           },
           {
+            label: 'Idle',
             framesMap: {
               frames: {
                 '0.png': {
@@ -118,6 +122,7 @@ export const ExampleSprite1: React.FC = () => {
             ],
           },
           {
+            label: 'Attack 1',
             framesMap: {
               frames: {
                 '0.png': {
