@@ -17,6 +17,7 @@
     }
   },
   "meta": {
-    "image": "main.png"
+    "image": "/assets/sprites-sheets/shinobi/attack-1/main.png",
+    "scale": 1
   }
 }

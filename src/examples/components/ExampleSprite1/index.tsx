@@ -36,7 +36,38 @@ export const ExampleSprite1: React.FC = () => {
       {
         assets: [
           {
-            config: { src: '/assets/sprites-sheets/shinobi/walk/data.json' },
+            framesMap: {
+              frames: {
+                '0.png': {
+                  frame: { x: 0, y: 0, w: 128, h: 128 },
+                },
+                '1.png': {
+                  frame: { x: 128, y: 0, w: 128, h: 128 },
+                },
+                '2.png': {
+                  frame: { x: 256, y: 0, w: 128, h: 128 },
+                },
+                '3.png': {
+                  frame: { x: 384, y: 0, w: 128, h: 128 },
+                },
+                '4.png': {
+                  frame: { x: 512, y: 0, w: 128, h: 128 },
+                },
+                '5.png': {
+                  frame: { x: 640, y: 0, w: 128, h: 128 },
+                },
+                '6.png': {
+                  frame: { x: 768, y: 0, w: 128, h: 128 },
+                },
+                '7.png': {
+                  frame: { x: 896, y: 0, w: 128, h: 128 },
+                },
+              },
+              meta: {
+                image: '/assets/sprites-sheets/shinobi/walk/main.png',
+                scale: 1,
+              },
+            },
             animations: [
               {
                 keysCodesCombination: KeyCode.D,
@@ -53,7 +84,32 @@ export const ExampleSprite1: React.FC = () => {
             ],
           },
           {
-            config: { src: '/assets/sprites-sheets/shinobi/idle/data.json' },
+            framesMap: {
+              frames: {
+                '0.png': {
+                  frame: { x: 0, y: 0, w: 128, h: 128 },
+                },
+                '1.png': {
+                  frame: { x: 128, y: 0, w: 128, h: 128 },
+                },
+                '2.png': {
+                  frame: { x: 256, y: 0, w: 128, h: 128 },
+                },
+                '3.png': {
+                  frame: { x: 384, y: 0, w: 128, h: 128 },
+                },
+                '4.png': {
+                  frame: { x: 512, y: 0, w: 128, h: 128 },
+                },
+                '5.png': {
+                  frame: { x: 640, y: 0, w: 128, h: 128 },
+                },
+              },
+              meta: {
+                image: '/assets/sprites-sheets/shinobi/idle/main.png',
+                scale: 1,
+              },
+            },
             animations: [
               {
                 speed: 0.2,
@@ -62,8 +118,28 @@ export const ExampleSprite1: React.FC = () => {
             ],
           },
           {
-            config: {
-              src: '/assets/sprites-sheets/shinobi/attack-1/data.json',
+            framesMap: {
+              frames: {
+                '0.png': {
+                  frame: { x: 0, y: 0, w: 128, h: 128 },
+                },
+                '1.png': {
+                  frame: { x: 128, y: 0, w: 128, h: 128 },
+                },
+                '2.png': {
+                  frame: { x: 256, y: 0, w: 128, h: 128 },
+                },
+                '3.png': {
+                  frame: { x: 384, y: 0, w: 128, h: 128 },
+                },
+                '4.png': {
+                  frame: { x: 512, y: 0, w: 128, h: 128 },
+                },
+              },
+              meta: {
+                image: '/assets/sprites-sheets/shinobi/attack-1/main.png',
+                scale: 1,
+              },
             },
             animations: [
               {
