@@ -1,13 +1,9 @@
 import { Direction } from '@interfaces/Direction';
+import { FramesMap } from '@interfaces/FramesMap';
 
 export type SpriteSheet = {
   assets: Array<{
-    config: {
-      src: string;
-      format?: string;
-      loadParser?: string;
-      framesNumber?: number;
-    };
+    framesMap: FramesMap | undefined;
     animations: Array<{
       direction?: Direction;
       keysCodesCombination?: string;

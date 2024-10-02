@@ -24,6 +24,7 @@ export const createFramesMap = async (args: {
     meta: {
       image: imageUrl,
       totalFrames,
+      scale: 1,
     },
   };
 

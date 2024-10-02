@@ -3,14 +3,13 @@ import { Direction } from '@interfaces/Direction';
 import { Frame } from '@interfaces/Frame';
 import { SpriteSheet } from '@interfaces/SpriteSheet';
 import { animationDurationInMs } from '@utils/animationDuration';
-import { AnimatedSprite, Application, Assets, Texture } from 'pixi.js';
+import { AnimatedSprite, Application, Spritesheet, Texture } from 'pixi.js';
 
 export const createSprite = (
   sheet: SpriteSheet,
   params: { app: Application | null; debug?: boolean }
 ) => {
   const { app, debug } = params;
-  const assetsConfigs = sheet.assets.map((item) => item.config);
   const state: {
     frames: Array<Frame>;
     keyLogs: Array<string>;
@@ -33,24 +32,59 @@ export const createSprite = (
     lastPressedKey: undefined,
   };
 
+  const createTextureFromImageUrl = (url: string): Promise<Texture> => {
+    return new Promise((resolve, reject) => {
+      const image = new Image();
+      image.src = url;
+      image.onload = () => {
+        const texture = Texture.from(image);
+        resolve(texture);
+      };
+      image.onerror = (error) => {
+        reject(error);
+      };
+    });
+  };
+
   const loadAssets = async () => {
-    await Assets.load(assetsConfigs);
-    const assets = Assets.get(assetsConfigs.map((item) => item.src));
-    console.log(assets);
+    const promises: Array<Promise<Record<string, Texture> | undefined>> = [];
+
+    for (let asset of sheet.assets) {
+      promises.push(
+        new Promise(async (resolve) => {
+          if (asset.framesMap === undefined) {
+            resolve(undefined);
+          } else {
+            const texture = await createTextureFromImageUrl(
+              asset.framesMap.meta.image
+            );
+            const sheet = new Spritesheet(texture, asset.framesMap);
+            resolve(await sheet.parse());
+          }
+        })
+      );
+    }
+
+    return await Promise.all(promises);
+  };
+
+  const generateFrames = async () => {
+    const assets = await loadAssets();
     const frames: Frame[] = [];
     let counter = 0;
 
-    for (let i = 0; i < Object.keys(assets).length; i++) {
+    for (let i = 0; i < sheet.assets.length; i++) {
       const animations = sheet.assets[i].animations;
+      const asset = assets[i];
+
+      if (asset === undefined) continue;
 
       for (const animation of animations) {
-        const frame = assets[String(i)] as { _frameKeys: string[] };
-        const frameKeys = frame._frameKeys;
-
-        for (let j = 0; j < frameKeys.length; j++) {
-          const frameKey = frameKeys[j];
+        const frameKeys = Object.keys(asset);
+        for (const frameKey of frameKeys) {
+          const texture = asset[frameKey];
           if (frames[counter]) {
-            frames[counter].textures.push(Texture.from(frameKey));
+            frames[counter].textures.push(texture);
           } else {
             frames[counter] = {
               keysCodesCombination: animation.keysCodesCombination,
@@ -58,7 +92,7 @@ export const createSprite = (
               default: animation.default,
               direction: animation.direction,
               wait: animation.wait,
-              textures: [Texture.from(frameKey)],
+              textures: [texture],
             };
           }
         }
@@ -207,7 +241,7 @@ export const createSprite = (
   };
 
   const initialize = async () => {
-    await loadAssets();
+    await generateFrames();
     const defaultFrames = state.frames.find((item) => item.default);
     if (defaultFrames === undefined) {
       throw new Error('No default animation assigned inside the SpriteSheet.');

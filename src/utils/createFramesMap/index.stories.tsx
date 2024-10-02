@@ -143,11 +143,7 @@ export const MapCreationFromInput: Story = {
         {
           assets: [
             {
-              config: {
-                src: imgUrl,
-                loadParser: 'loadTextures',
-                format: 'png',
-              },
+              framesMap,
               animations: [
                 {
                   speed: 0.2,
