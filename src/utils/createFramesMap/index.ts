@@ -7,13 +7,23 @@ export const createFramesMap = async (args: {
   imageUrl: string;
   numRows: number;
   numCols: number;
+  scale?: number;
+  emptyFrames?: number;
 }) => {
-  const { image, imageExtension, imageUrl, numCols, numRows } = args;
+  const {
+    image,
+    imageExtension,
+    imageUrl,
+    numCols,
+    numRows,
+    scale = 1,
+    emptyFrames = 0,
+  } = args;
   const imageDimensions = await getImageDimensions(image);
   const frameHeight = imageDimensions.height / numRows;
   const frameWidth = imageDimensions.width / numCols;
   const numFramesPerRow = imageDimensions.width / frameWidth;
-  const totalFrames = numFramesPerRow * numRows;
+  const totalFrames = numFramesPerRow * numRows - emptyFrames;
 
   let currentWidth = 0;
   let currentHeight = 0;
@@ -23,7 +33,7 @@ export const createFramesMap = async (args: {
     frames: {},
     meta: {
       image: imageUrl,
-      scale: 1,
+      scale,
     },
   };
 

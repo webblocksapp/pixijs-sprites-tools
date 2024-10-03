@@ -61,11 +61,15 @@ export const MapCreationFromInput: Story = {
       numCols: number;
       image: Blob | undefined;
       imageExtension: string | undefined;
+      scale: number;
+      emptyFrames: number;
     }>({
       numRows: 0,
       numCols: 0,
       image: undefined,
       imageExtension: undefined,
+      scale: 1,
+      emptyFrames: 0,
     });
 
     const onInput: React.FormEventHandler<HTMLInputElement> = (event) => {
@@ -101,6 +105,8 @@ export const MapCreationFromInput: Story = {
             imageUrl: imgUrl,
             numCols: data.numCols,
             numRows: data.numRows,
+            scale: 1,
+            emptyFrames: data.emptyFrames,
           })
         );
     };
@@ -119,8 +125,8 @@ export const MapCreationFromInput: Story = {
       const app = new Application();
       await app.init({
         backgroundColor: 'pink',
-        width: 300,
-        height: 300,
+        width: 600,
+        height: 600,
       });
       appRef.current = app;
 
@@ -199,8 +205,34 @@ export const MapCreationFromInput: Story = {
             onInput={onInput}
           />
         </div>
+        <div>
+          <label>Scale</label>
+          <input
+            name="scale"
+            type="number"
+            value={data.scale}
+            onInput={onInput}
+          />
+        </div>
+        <div>
+          <label>Empty Frames</label>
+          <input
+            name="emptyFrames"
+            type="number"
+            value={data.emptyFrames}
+            onInput={onInput}
+          />
+        </div>
         <button onClick={generateMap}>Generate Map</button>
-        <img src={imgUrl} />
+        <div
+          style={{
+            width: '500px',
+            border: '1px solid black',
+            minHeight: '200px',
+          }}
+        >
+          <img style={{ objectFit: 'contain' }} width="100%" src={imgUrl} />
+        </div>
         {framesMap ? (
           <div style={{ display: 'flex' }}>
             <div>
@@ -215,7 +247,7 @@ export const MapCreationFromInput: Story = {
               <button onClick={initializePixiContainer}>Preview</button>
               <div
                 ref={pixiContainer}
-                style={{ width: 300, height: 300, border: '1px solid black' }}
+                style={{ width: 600, height: 600, border: '1px solid black' }}
               />
             </div>
           </div>
