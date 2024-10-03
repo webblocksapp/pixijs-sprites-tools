@@ -3,7 +3,7 @@ import { Direction } from '@interfaces/Direction';
 import { Frame } from '@interfaces/Frame';
 import { SpriteSheet } from '@interfaces/SpriteSheet';
 import { animationDurationInMs } from '@utils/animationDuration';
-import { AnimatedSprite, Spritesheet, Texture, Ticker } from 'pixi.js';
+import { AnimatedSprite, Spritesheet, Texture } from 'pixi.js';
 
 export const createSprite = (
   sheet: SpriteSheet,
@@ -200,7 +200,6 @@ export const createSprite = (
         const animationDuration = animationDurationInMs({
           numberOfFrames: textures.length,
           speed,
-          fps: Ticker.shared.FPS,
         });
 
         setTimeout(() => {
