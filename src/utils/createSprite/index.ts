@@ -36,7 +36,6 @@ export const createSprite = (
     return new Promise((resolve, reject) => {
       const image = new Image();
       image.src = url;
-      console.log(url);
       image.onload = () => {
         const canvas = document.createElement('canvas');
         canvas.width = image.width;
