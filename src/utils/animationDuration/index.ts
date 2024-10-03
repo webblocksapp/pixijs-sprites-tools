@@ -3,7 +3,6 @@ export const animationDurationInMs = (args: {
   speed: number;
   fps: number;
 }) => {
-  const durationInFrames = args.numberOfFrames / args.speed;
-  const durationInSeconds = durationInFrames / args.fps;
+  const durationInSeconds = args.numberOfFrames / (args.fps * args.speed);
   return durationInSeconds * 1000;
 };

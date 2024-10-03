@@ -157,7 +157,7 @@ export const ExampleSprite1: React.FC = () => {
           },
         ],
       },
-      { app: appRef.current, debug: true }
+      { debug: true }
     );
 
     (async () => {

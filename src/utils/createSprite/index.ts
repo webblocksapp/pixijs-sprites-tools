@@ -3,13 +3,13 @@ import { Direction } from '@interfaces/Direction';
 import { Frame } from '@interfaces/Frame';
 import { SpriteSheet } from '@interfaces/SpriteSheet';
 import { animationDurationInMs } from '@utils/animationDuration';
-import { AnimatedSprite, Application, Spritesheet, Texture } from 'pixi.js';
+import { AnimatedSprite, Spritesheet, Texture, Ticker } from 'pixi.js';
 
 export const createSprite = (
   sheet: SpriteSheet,
-  params: { app: Application | null; debug?: boolean }
+  params: { debug?: boolean }
 ) => {
-  const { app, debug } = params;
+  const { debug } = params;
   const state: {
     frames: Array<Frame>;
     keyLogs: Array<string>;
@@ -197,14 +197,18 @@ export const createSprite = (
       if (state.currentAnimation?.wait) {
         setWaitingAnimation(true);
         const { textures, speed } = state.currentAnimation;
+        const animationDuration = animationDurationInMs({
+          numberOfFrames: textures.length,
+          speed,
+          fps: Ticker.shared.FPS,
+        });
 
         setTimeout(() => {
           setWaitingAnimation(false);
           setDefaultAnimation();
           const lastKey = getLastKey();
-
           if (lastKey) runAnimation(lastKey);
-        }, animationDurationInMs({ numberOfFrames: textures.length, speed, fps: app?.ticker.FPS || 60 }));
+        }, animationDuration);
       }
     }
   };

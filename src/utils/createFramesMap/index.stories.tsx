@@ -154,7 +154,7 @@ export const MapCreationFromInput: Story = {
             },
           ],
         },
-        { app: appRef.current, debug: true }
+        { debug: true }
       );
       (async () => {
         cleanScene();
