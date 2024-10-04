@@ -7,9 +7,9 @@ import { AnimatedSprite, Spritesheet, Texture } from 'pixi.js';
 
 export const createSprite = (
   sheet: SpriteSheet,
-  params: { debug?: boolean }
+  params?: { debug?: boolean }
 ) => {
-  const { debug } = params;
+  const { debug } = params || {};
   const state: {
     frames: Array<Frame>;
     keyLogs: Array<string>;

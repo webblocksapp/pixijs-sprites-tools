@@ -1,17 +1,5 @@
-import { Direction } from '@interfaces/Direction';
-import { FramesMap } from '@interfaces/FramesMap';
+import { Asset } from '@interfaces/Asset';
 
 export type SpriteSheet = {
-  assets: Array<{
-    label: string;
-    framesMap: FramesMap | undefined;
-    animations: Array<{
-      direction?: Direction;
-      keysCodesCombination?: string;
-      wait?: boolean;
-      label?: string;
-      default: boolean;
-      speed: number;
-    }>;
-  }>;
+  assets: Array<Asset>;
 };

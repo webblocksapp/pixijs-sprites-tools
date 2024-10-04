@@ -1,3 +1,4 @@
+export * from './Asset';
 export * from './Direction';
 export * from './Frame';
 export * from './FramesMap';
