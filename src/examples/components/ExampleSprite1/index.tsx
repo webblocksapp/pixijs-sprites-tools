@@ -67,6 +67,8 @@ export const ExampleSprite1: React.FC = () => {
               meta: {
                 image: '/assets/sprites-sheets/shinobi/walk/main.png',
                 scale: 1,
+                numCols: 8,
+                numRows: 1,
               },
             },
             animations: [
@@ -112,6 +114,8 @@ export const ExampleSprite1: React.FC = () => {
               meta: {
                 image: '/assets/sprites-sheets/shinobi/idle/main.png',
                 scale: 1,
+                numRows: 1,
+                numCols: 6,
               },
             },
             animations: [
@@ -144,6 +148,8 @@ export const ExampleSprite1: React.FC = () => {
               meta: {
                 image: '/assets/sprites-sheets/shinobi/attack-1/main.png',
                 scale: 1,
+                numRows: 1,
+                numCols: 5,
               },
             },
             animations: [

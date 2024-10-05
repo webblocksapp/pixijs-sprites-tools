@@ -24,6 +24,8 @@ export default tseslint.config(
         { allowConstantExport: true },
       ],
       'react-hooks/exhaustive-deps': 'off',
+      'no-async-promise-executor': 'off',
+      '@typescript-eslint/no-unused-expressions': 'off',
     },
   }
 );

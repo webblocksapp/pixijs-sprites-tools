@@ -60,7 +60,7 @@ export const createSprite = (
   const loadAssets = async () => {
     const promises: Array<Promise<Record<string, Texture> | undefined>> = [];
 
-    for (let asset of sheet.assets) {
+    for (const asset of sheet.assets) {
       promises.push(
         new Promise(async (resolve) => {
           if (asset.framesMap === undefined) {
