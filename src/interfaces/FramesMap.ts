@@ -6,6 +6,9 @@ export type FramesMap = {
   };
   meta: {
     image: string;
+    numRows: number;
+    numCols: number;
     scale: number;
+    emptyFrames?: number;
   };
 };
