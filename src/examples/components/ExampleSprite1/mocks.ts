@@ -33,6 +33,7 @@ export const SHINOBI_SPRITE: SpriteSheet = {
           },
         },
         meta: {
+          imageData: { width: 0, height: 0 },
           image: '/assets/sprites-sheets/shinobi/walk/main.png',
           scale: 1,
           numCols: 8,
@@ -80,6 +81,7 @@ export const SHINOBI_SPRITE: SpriteSheet = {
           },
         },
         meta: {
+          imageData: { width: 0, height: 0 },
           image: '/assets/sprites-sheets/shinobi/idle/main.png',
           scale: 1,
           numRows: 1,
@@ -114,6 +116,7 @@ export const SHINOBI_SPRITE: SpriteSheet = {
           },
         },
         meta: {
+          imageData: { width: 0, height: 0 },
           image: '/assets/sprites-sheets/shinobi/attack-1/main.png',
           scale: 1,
           numRows: 1,
@@ -396,8 +399,8 @@ export const HANDMADE_WALKER_SPRITE: SpriteSheet = {
           },
         },
         meta: {
-          image:
-            'blob:http://localhost:6006/9b14f311-d8df-4228-b65b-f41e3e6f8c5a',
+          imageData: { width: 0, height: 0 },
+          image: '/assets/sprites-sheets/handmade-walk/main.png',
           numRows: 7,
           numCols: 5,
           scale: 1,

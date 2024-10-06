@@ -6,6 +6,10 @@ export type FramesMap = {
   };
   meta: {
     image: string;
+    imageData: {
+      width: number;
+      height: number;
+    };
     numRows: number;
     numCols: number;
     scale: number;

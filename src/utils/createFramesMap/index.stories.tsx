@@ -22,9 +22,9 @@ export const Overview: Story = {
       (async () => {
         setFramesMap(
           await createFramesMap({
-            image: base64ToBlob(image1, 'image/png'),
+            type: 'file',
+            image: base64ToBlob(image1, 'image/png') as unknown as File,
             imageExtension: 'png',
-            imageUrl: 'main.png',
             numCols: 6,
             numRows: 1,
           })
@@ -59,7 +59,7 @@ export const MapCreationFromInput: Story = {
     const [data, setData] = useState<{
       numRows: number;
       numCols: number;
-      image: Blob | undefined;
+      image: File | undefined;
       imageExtension: string | undefined;
       scale: number;
       emptyFrames: number;
@@ -84,12 +84,11 @@ export const MapCreationFromInput: Story = {
       const file = event.currentTarget.files?.[0];
 
       if (file) {
-        const image = new Blob([file], { type: file.type });
         const imageExtension = file.type.split('/')[1];
         setImgUrl(URL.createObjectURL(file));
         setData((prev) => ({
           ...prev,
-          image,
+          image: file,
           imageExtension,
         }));
       }
@@ -100,9 +99,9 @@ export const MapCreationFromInput: Story = {
         data.imageExtension &&
         setFramesMap(
           await createFramesMap({
+            type: 'file',
             image: data.image,
             imageExtension: data.imageExtension,
-            imageUrl: imgUrl,
             numCols: data.numCols,
             numRows: data.numRows,
             scale: 1,
