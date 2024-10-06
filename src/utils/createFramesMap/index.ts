@@ -60,6 +60,7 @@ export const createFramesMap = async (
       numRows,
       numCols,
       scale,
+      emptyFrames,
     },
   };
 
