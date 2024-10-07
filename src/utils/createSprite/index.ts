@@ -62,15 +62,19 @@ export const createSprite = (
 
     for (const asset of sheet.assets) {
       promises.push(
-        new Promise(async (resolve) => {
-          if (asset.framesMap === undefined) {
-            resolve(undefined);
-          } else {
-            const texture = await createTextureFromImageUrl(
-              asset.framesMap.meta.image
-            );
-            const sheet = new Spritesheet(texture, asset.framesMap);
-            resolve(await sheet.parse());
+        new Promise(async (resolve, reject) => {
+          try {
+            if (asset.framesMap === undefined) {
+              resolve(undefined);
+            } else {
+              const texture = await createTextureFromImageUrl(
+                asset.framesMap.meta.image
+              );
+              const sheet = new Spritesheet(texture, asset.framesMap);
+              resolve(await sheet.parse());
+            }
+          } catch (error) {
+            reject(error);
           }
         })
       );
@@ -140,6 +144,7 @@ export const createSprite = (
     } else if (speed === undefined) {
       warn('Undefined animation speed.');
     } else if (state.anim) {
+      flipSprite(state.direction);
       state.anim.textures = frames;
       state.anim.animationSpeed = speed;
       state.anim.play();
@@ -188,7 +193,6 @@ export const createSprite = (
       warn('No animation frame found');
     } else {
       updateAnimationDirection();
-      flipSprite(state.direction);
       setAnimation(
         state.currentAnimation.textures,
         state.currentAnimation.speed
