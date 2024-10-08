@@ -122,11 +122,15 @@ export const createSprite = (
   const flipSprite = (direction: Direction | undefined) => {
     if (state.anim === undefined) {
       warn('No animation found to flip.');
-    } else if (state.anim && (direction === 'right' || direction === 'left')) {
-      state.anim.scale.x =
-        direction === 'right'
-          ? state.anim.scale.x * 1
-          : state.anim.scale.x * -1;
+      return;
+    }
+
+    const x = state.anim.scale.x;
+
+    if (state.anim && direction === 'right' && x < 0) {
+      state.anim.scale.x = x * -1;
+    } else if (state.anim && direction === 'left' && x >= 0) {
+      state.anim.scale.x = x * -1;
     }
   };
 
@@ -145,7 +149,6 @@ export const createSprite = (
     } else if (speed === undefined) {
       warn('Undefined animation speed.');
     } else if (state.anim) {
-      flipSprite(state.direction);
       state.anim.textures = frames;
       state.anim.animationSpeed = speed;
       state.anim.play();
@@ -194,6 +197,7 @@ export const createSprite = (
       warn('No animation frame found');
     } else {
       updateAnimationDirection();
+      flipSprite(state.direction);
       setAnimation(
         state.currentAnimation.textures,
         state.currentAnimation.speed
