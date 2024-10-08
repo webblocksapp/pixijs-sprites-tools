@@ -123,9 +123,10 @@ export const createSprite = (
     if (state.anim === undefined) {
       warn('No animation found to flip.');
     } else if (state.anim && (direction === 'right' || direction === 'left')) {
-      state.anim.scale.x = direction === 'right' ? 1 : -1;
-    } else {
-      state.anim.scale.x = 1;
+      state.anim.scale.x =
+        direction === 'right'
+          ? state.anim.scale.x * 1
+          : state.anim.scale.x * -1;
     }
   };
 
