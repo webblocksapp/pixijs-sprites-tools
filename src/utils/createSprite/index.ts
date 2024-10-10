@@ -272,6 +272,7 @@ export const createSprite = (
     state.anim = new AnimatedSprite(defaultFrames.textures);
     state.anim.anchor.set(0.5);
     state.anim.animationSpeed = defaultFrames.speed;
+    flipSprite(defaultFrames.direction);
     state.anim.play();
   };
 
