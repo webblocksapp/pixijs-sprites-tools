@@ -104,3 +104,9 @@ export enum KeyCode {
   Pause = 'Pause',
   ContextMenu = 'ContextMenu',
 }
+
+export enum FrameType {
+  Action = 'Action',
+  Movement = 'Movement',
+  Custom = 'Custom',
+}

@@ -6,6 +6,7 @@ import { FramesMap } from '@interfaces/FramesMap';
 import { base64ToBlob } from '@utils/base64ToBlob';
 import { PixiScene, PixiSceneHandle } from 'pixijs-sprites-tools/react';
 import { SpriteSheet } from '@interfaces/SpriteSheet';
+import { FrameType } from '@constants/enum';
 
 const meta: Meta<typeof createFramesMap> = {
   title: 'Utils/createFramesMap',
@@ -119,6 +120,7 @@ export const MapCreationFromInput: Story = {
               {
                 speed: 0.2,
                 default: true,
+                type: FrameType.Custom,
               },
             ],
           },

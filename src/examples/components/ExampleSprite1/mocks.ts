@@ -1,4 +1,4 @@
-import { KeyCode } from '@constants/enum';
+import { FrameType, KeyCode } from '@constants/enum';
 import { SpriteSheet } from '@interfaces/SpriteSheet';
 
 export const SHINOBI_SPRITE: SpriteSheet = {
@@ -47,6 +47,7 @@ export const SHINOBI_SPRITE: SpriteSheet = {
           direction: 'right',
           speed: 0.2,
           default: false,
+          type: FrameType.Movement,
         },
         {
           label: 'Walk left',
@@ -54,6 +55,7 @@ export const SHINOBI_SPRITE: SpriteSheet = {
           direction: 'left',
           speed: 0.2,
           default: false,
+          type: FrameType.Movement,
         },
       ],
     },
@@ -92,6 +94,7 @@ export const SHINOBI_SPRITE: SpriteSheet = {
         {
           speed: 0.2,
           default: true,
+          type: FrameType.Action,
         },
       ],
     },
@@ -129,6 +132,7 @@ export const SHINOBI_SPRITE: SpriteSheet = {
           speed: 0.2,
           default: false,
           wait: true,
+          type: FrameType.Action,
         },
       ],
     },
@@ -413,6 +417,7 @@ export const HANDMADE_WALKER_SPRITE: SpriteSheet = {
           direction: 'right',
           speed: 0.4,
           default: true,
+          type: FrameType.Movement,
         },
         {
           label: 'Walk left',
@@ -420,6 +425,7 @@ export const HANDMADE_WALKER_SPRITE: SpriteSheet = {
           direction: 'left',
           speed: 0.4,
           default: false,
+          type: FrameType.Movement,
         },
       ],
     },

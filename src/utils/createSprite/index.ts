@@ -1,4 +1,4 @@
-import { KeyCode } from '@constants/enum';
+import { FrameType, KeyCode } from '@constants/enum';
 import { Direction } from '@interfaces/Direction';
 import { Frame } from '@interfaces/Frame';
 import { SpriteSheet } from '@interfaces/SpriteSheet';
@@ -107,6 +107,7 @@ export const createSprite = (
               default: animation.default,
               direction: animation.direction,
               wait: animation.wait,
+              type: animation.type,
               textures: [texture],
             };
           }
@@ -156,7 +157,11 @@ export const createSprite = (
   };
 
   const updateAnimationDirection = () => {
-    const direction = state.currentAnimation?.direction;
+    const direction =
+      state.currentAnimation?.type === FrameType.Movement
+        ? state.currentAnimation?.direction
+        : undefined;
+
     if (direction) {
       state.direction = direction;
     }
@@ -203,7 +208,11 @@ export const createSprite = (
         state.currentAnimation.speed
       );
 
-      if (state.currentAnimation?.wait) {
+      if (
+        state.currentAnimation.type === FrameType.Movement ||
+        (state.currentAnimation.type === FrameType.Custom &&
+          state.currentAnimation?.wait)
+      ) {
         setWaitingAnimation(true);
         const { textures, speed } = state.currentAnimation;
         const animationDuration = animationDurationInMs({
@@ -272,7 +281,9 @@ export const createSprite = (
     state.anim = new AnimatedSprite(defaultFrames.textures);
     state.anim.anchor.set(0.5);
     state.anim.animationSpeed = defaultFrames.speed;
-    flipSprite(defaultFrames.direction);
+    if (defaultFrames.type === FrameType.Movement) {
+      flipSprite(defaultFrames.direction);
+    }
     state.anim.play();
   };
 
