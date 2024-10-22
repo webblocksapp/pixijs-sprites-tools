@@ -67,13 +67,12 @@ export const PixiScene = forwardRef<PixiSceneHandle, PixiSceneProps>(
       }
 
       if (animatedSprite) {
-        const scaleX = (sceneWidth / animatedSprite.texture.width) * directionX;
-        const scaleY =
-          (sceneHeight / animatedSprite.texture.height) * directionY;
+        const scaleX = sceneWidth / animatedSprite.texture.width;
+        const scaleY = sceneHeight / animatedSprite.texture.height;
+        const scaleFactor = Math.min(scaleX, scaleY);
 
-        const scale = Math.min(scaleX, scaleY);
-        console.log(scale, scaleX, scaleY);
-        animatedSprite.scale.set(scale);
+        animatedSprite.scale.x = scaleFactor * directionX;
+        animatedSprite.scale.y = scaleFactor * directionY;
       }
     };
 
