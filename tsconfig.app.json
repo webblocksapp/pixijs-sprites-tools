@@ -35,7 +35,8 @@
       "@store": ["src/store.ts"],
       "@themes/*": ["src/themes/*"],
       "@utils/*": ["src/utils/*"],
-      "pixijs-sprites-tools": ["dist"]
+      "pixijs-sprites-tools": ["dist"],
+      "pixijs-sprites-tools/react": ["src/react"]
     }
   },
   "include": ["src"]

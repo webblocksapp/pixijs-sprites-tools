@@ -4,8 +4,8 @@ import { image1 } from './mocks';
 import { useEffect, useRef, useState } from 'react';
 import { FramesMap } from '@interfaces/FramesMap';
 import { base64ToBlob } from '@utils/base64ToBlob';
-import { Application } from 'pixi.js';
-import { createSprite } from '@utils/createSprite';
+import { PixiScene, PixiSceneHandle } from 'pixijs-sprites-tools/react';
+import { SpriteSheet } from '@interfaces/SpriteSheet';
 
 const meta: Meta<typeof createFramesMap> = {
   title: 'Utils/createFramesMap',
@@ -51,8 +51,7 @@ export const Overview: Story = {
 
 export const MapCreationFromInput: Story = {
   render: () => {
-    const pixiContainer = useRef<HTMLDivElement>(null);
-    const appRef = useRef<Application | null>(null);
+    const pixiSceneRef = useRef<PixiSceneHandle>(null);
     const [framesMap, setFramesMap] = useState<FramesMap>();
     const [framesMapUrl, setFramesMapUrl] = useState<string>('');
     const [imgUrl, setImgUrl] = useState('');
@@ -110,28 +109,24 @@ export const MapCreationFromInput: Story = {
         );
     };
 
-    const cleanScene = () => {
-      if (appRef.current) {
-        if (pixiContainer.current && appRef.current.canvas) {
-          pixiContainer.current.removeChild(appRef.current.canvas);
-          appRef.current.destroy(true, { children: true });
-        }
-        appRef.current = null;
-      }
-    };
+    const initializeScene = async () => {
+      const spriteSheet: SpriteSheet = {
+        assets: [
+          {
+            label: 'Any animation',
+            framesMap,
+            animations: [
+              {
+                speed: 0.2,
+                default: true,
+              },
+            ],
+          },
+        ],
+      };
 
-    const startScene = async () => {
-      const app = new Application();
-      await app.init({
-        backgroundColor: 'pink',
-        width: 600,
-        height: 600,
-      });
-      appRef.current = app;
-
-      if (pixiContainer.current) {
-        pixiContainer.current.appendChild(app.canvas);
-      }
+      await pixiSceneRef.current?.resetScene();
+      await pixiSceneRef.current?.addSpritesIntoScene([spriteSheet]);
     };
 
     useEffect(() => {
@@ -142,43 +137,6 @@ export const MapCreationFromInput: Story = {
         setFramesMapUrl(url);
       }
     }, [framesMap]);
-
-    const initializePixiContainer = () => {
-      const sprite = createSprite(
-        {
-          assets: [
-            {
-              label: 'Any animation',
-              framesMap,
-              animations: [
-                {
-                  speed: 0.2,
-                  default: true,
-                },
-              ],
-            },
-          ],
-        },
-        { debug: true }
-      );
-      (async () => {
-        cleanScene();
-        await startScene();
-        await sprite.initialize();
-        if (appRef.current && sprite.data.anim) {
-          appRef.current.stage.addChild(sprite.data.anim);
-          sprite.data.anim.x = appRef.current!.screen.width / 2;
-          sprite.data.anim.y = appRef.current!.screen.height / 2;
-        }
-        sprite.initEventListeners();
-        sprite.onKeyLogsChange((logs) => {
-          console.log(logs);
-        });
-      })();
-      return () => {
-        sprite.removeEventListeners();
-      };
-    };
 
     return (
       <div>
@@ -243,10 +201,13 @@ export const MapCreationFromInput: Story = {
             </div>
             <div>
               <p>Preview animation:</p>
-              <button onClick={initializePixiContainer}>Preview</button>
-              <div
-                ref={pixiContainer}
-                style={{ width: 600, height: 600, border: '1px solid black' }}
+              <button onClick={initializeScene}>Preview</button>
+              <PixiScene
+                ref={pixiSceneRef}
+                options={{
+                  width: 800,
+                  height: 600,
+                }}
               />
             </div>
           </div>
