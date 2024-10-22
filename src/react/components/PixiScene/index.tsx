@@ -54,11 +54,25 @@ export const PixiScene = forwardRef<PixiSceneHandle, PixiSceneProps>(
       const sceneHeight = appRef.current.screen.height;
       const animatedSprite = sprite.data.anim;
 
+      let directionX = 1;
+      let directionY = 1;
+
+      if (sprite.data.direction) {
+        if (['left', 'right'].includes(sprite.data.direction)) {
+          directionX = sprite.data.direction === 'left' ? -1 : 1;
+        }
+        if (['up', 'down'].includes(sprite.data.direction)) {
+          directionY = sprite.data.direction === 'down' ? -1 : 1;
+        }
+      }
+
       if (animatedSprite) {
-        const scaleX = sceneWidth / animatedSprite.texture.width;
-        const scaleY = sceneHeight / animatedSprite.texture.height;
+        const scaleX = (sceneWidth / animatedSprite.texture.width) * directionX;
+        const scaleY =
+          (sceneHeight / animatedSprite.texture.height) * directionY;
 
         const scale = Math.min(scaleX, scaleY);
+        console.log(scale, scaleX, scaleY);
         animatedSprite.scale.set(scale);
       }
     };

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { PixiScene, PixiSceneHandle } from '.';
-import { KeyCode, SpriteSheet } from 'pixijs-sprites-tools';
+import { FrameType, KeyCode, SpriteSheet } from 'pixijs-sprites-tools';
 import { useEffect, useRef } from 'react';
 
 const meta: Meta<typeof PixiScene> = {
@@ -60,6 +60,7 @@ const SPRITE_SHEET_1: SpriteSheet = {
           direction: 'right',
           speed: 0.2,
           default: false,
+          type: FrameType.Movement,
         },
         {
           label: 'Walk left',
@@ -67,6 +68,7 @@ const SPRITE_SHEET_1: SpriteSheet = {
           direction: 'left',
           speed: 0.2,
           default: false,
+          type: FrameType.Movement,
         },
       ],
     },
@@ -108,6 +110,8 @@ const SPRITE_SHEET_1: SpriteSheet = {
         {
           speed: 0.2,
           default: true,
+          type: FrameType.Action,
+          direction: 'left',
         },
       ],
     },
@@ -148,6 +152,7 @@ const SPRITE_SHEET_1: SpriteSheet = {
           speed: 0.2,
           default: false,
           wait: true,
+          type: FrameType.Action,
         },
       ],
     },

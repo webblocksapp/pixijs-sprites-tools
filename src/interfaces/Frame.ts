@@ -8,7 +8,7 @@ export type Frame = {
   speed: number;
   default?: boolean;
 } & (
-  | { type: FrameType.Action }
+  | { type: FrameType.Action; direction?: Direction }
   | { type: FrameType.Movement; direction: Direction | undefined }
   | { type: FrameType.Custom; direction?: Direction; wait?: boolean }
 );

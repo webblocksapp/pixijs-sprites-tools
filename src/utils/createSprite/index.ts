@@ -128,9 +128,9 @@ export const createSprite = (
 
     const x = state.anim.scale.x;
 
-    if (state.anim && direction === 'right' && x < 0) {
+    if (direction === 'right' && x < 0) {
       state.anim.scale.x = x * -1;
-    } else if (state.anim && direction === 'left' && x >= 0) {
+    } else if (direction === 'left' && x >= 0) {
       state.anim.scale.x = x * -1;
     }
   };
@@ -157,11 +157,7 @@ export const createSprite = (
   };
 
   const updateAnimationDirection = () => {
-    const direction =
-      state.currentAnimation?.type === FrameType.Movement
-        ? state.currentAnimation?.direction
-        : undefined;
-
+    const direction = state.currentAnimation?.direction;
     if (direction) {
       state.direction = direction;
     }
@@ -208,11 +204,7 @@ export const createSprite = (
         state.currentAnimation.speed
       );
 
-      if (
-        state.currentAnimation.type === FrameType.Movement ||
-        (state.currentAnimation.type === FrameType.Custom &&
-          state.currentAnimation?.wait)
-      ) {
+      if (state.currentAnimation.type === FrameType.Action) {
         setWaitingAnimation(true);
         const { textures, speed } = state.currentAnimation;
         const animationDuration = animationDurationInMs({
@@ -281,9 +273,8 @@ export const createSprite = (
     state.anim = new AnimatedSprite(defaultFrames.textures);
     state.anim.anchor.set(0.5);
     state.anim.animationSpeed = defaultFrames.speed;
-    if (defaultFrames.type === FrameType.Movement) {
-      flipSprite(defaultFrames.direction);
-    }
+    state.direction = defaultFrames.direction;
+    flipSprite(defaultFrames.direction);
     state.anim.play();
   };
 
