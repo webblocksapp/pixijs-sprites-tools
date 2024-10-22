@@ -21,24 +21,25 @@ export default defineConfig({
     }),
     tsconfigPaths(),
     dts({
-      rollupTypes: true,
       tsconfigPath: './tsconfig.app.json',
-      include: 'src',
-      exclude: ['src/examples', 'src/react', '**/*.stories.tsx'],
-      outDir: 'dist',
+      include: 'src/react',
+      exclude: ['src/react/**/*.stories.tsx'],
+      outDir: 'dist/react',
+      aliasesExclude: ['pixijs-sprites-tools'],
     }),
   ],
   build: {
     minify: false,
     lib: {
-      entry: 'src/index.ts',
+      entry: 'src/react/index.ts',
       fileName: (format: string) => {
-        return `${format}/index.js`;
+        return `react/${format}/index.js`;
       },
       formats: ['es'],
     },
+    emptyOutDir: false,
     rollupOptions: {
-      external,
+      external: [...external, 'pixijs-sprites-tools'],
     },
   },
 });

@@ -9,15 +9,28 @@
     "dist",
     "README.md"
   ],
+  "typesVersions": {
+    "*": {
+      "react": [
+        "./dist/react/index.d.ts"
+      ]
+    }
+  },
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/es/index.js"
+    },
+    "./react": {
+      "types": "./dist/react/index.d.ts",
+      "import": "./dist/react/es/index.js"
     }
   },
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build && rm -r dist/assets",
+    "build": "pnpm build:lib && pnpm build:react",
+    "build:lib": "vite build && rm -r dist/assets",
+    "build:react": "vite build --config ./vite.react.config.ts",
     "lint": "eslint .",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
