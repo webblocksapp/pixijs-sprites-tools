@@ -9,6 +9,7 @@ export const createSprite = (
   sheet: SpriteSheet,
   params?: { debug?: boolean }
 ) => {
+  const { webDomain } = sheet;
   const { debug } = params || {};
   const state: {
     frames: Array<Frame>;
@@ -57,6 +58,13 @@ export const createSprite = (
     });
   };
 
+  const createTextureImageUrl = (imageUrl: string) => {
+    if (webDomain && !imageUrl.match(/^https?:\/\//)?.length) {
+      return `${webDomain.replace(/\/$/, '')}/${imageUrl}`;
+    }
+    return imageUrl;
+  };
+
   const loadAssets = async () => {
     const promises: Array<Promise<Record<string, Texture> | undefined>> = [];
 
@@ -67,9 +75,10 @@ export const createSprite = (
             if (asset.framesMap === undefined) {
               resolve(undefined);
             } else {
-              const texture = await createTextureFromImageUrl(
+              const textureImageUrl = createTextureImageUrl(
                 asset.framesMap.meta.image
               );
+              const texture = await createTextureFromImageUrl(textureImageUrl);
               const sheet = new Spritesheet(texture, asset.framesMap);
               resolve(await sheet.parse());
             }
