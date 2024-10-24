@@ -3,6 +3,7 @@ import { Direction } from '@interfaces/Direction';
 import { Frame } from '@interfaces/Frame';
 import { SpriteSheet } from '@interfaces/SpriteSheet';
 import { animationDurationInMs } from '@utils/animationDuration';
+import { urlIsRelative } from '@utils/urlIsRelative';
 import { AnimatedSprite, Spritesheet, Texture } from 'pixi.js';
 
 export const createSprite = (
@@ -37,6 +38,7 @@ export const createSprite = (
     return new Promise((resolve, reject) => {
       const image = new Image();
       image.src = url;
+      image.crossOrigin = '';
       image.onload = () => {
         const canvas = document.createElement('canvas');
         canvas.width = image.width;
@@ -59,8 +61,11 @@ export const createSprite = (
   };
 
   const createTextureImageUrl = (imageUrl: string) => {
-    if (webDomain && !imageUrl.match(/^https?:\/\//)?.length) {
-      return `${webDomain.replace(/\/$/, '')}/${imageUrl}`;
+    if (webDomain && urlIsRelative(imageUrl)) {
+      console.log(
+        `${webDomain.replace(/\/$/, '')}/${imageUrl.replace(/^\//, '')}`
+      );
+      return `${webDomain.replace(/\/$/, '')}/${imageUrl.replace(/^\//, '')}`;
     }
     return imageUrl;
   };
