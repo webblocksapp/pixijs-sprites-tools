@@ -12,6 +12,8 @@ type Story = StoryObj<typeof PixiScene>;
 export default meta;
 
 const SPRITE_SHEET_1: SpriteSheet = {
+  id: '1',
+  name: 'Shinobi',
   assets: [
     {
       label: 'Walk',

@@ -7,6 +7,7 @@ export type Frame = {
   textures: Texture[];
   speed: number;
   default?: boolean;
+  label?: string;
 } & (
   | { type: FrameType.Action; direction?: Direction }
   | { type: FrameType.Movement; direction: Direction | undefined }

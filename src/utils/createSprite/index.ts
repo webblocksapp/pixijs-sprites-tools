@@ -5,6 +5,7 @@ import { SpriteSheet } from '@interfaces/SpriteSheet';
 import { animationDurationInMs } from '@utils/animationDuration';
 import { urlIsRelative } from '@utils/urlIsRelative';
 import { AnimatedSprite, Spritesheet, Texture } from 'pixi.js';
+import { v4 as uuid } from 'uuid';
 
 export const createSprite = (
   sheet: SpriteSheet,
@@ -13,6 +14,8 @@ export const createSprite = (
   const { webDomain } = sheet;
   const { debug } = params || {};
   const state: {
+    id: string;
+    name: string;
     frames: Array<Frame>;
     keyLogs: Array<string>;
     anim: AnimatedSprite | undefined;
@@ -23,6 +26,8 @@ export const createSprite = (
     prevPressedKey: string | undefined;
     lastPressedKey: string | undefined;
   } = {
+    id: sheet.id || uuid(),
+    name: sheet.name,
     frames: [],
     keyLogs: [],
     anim: undefined,
@@ -122,6 +127,7 @@ export const createSprite = (
               direction: animation.direction,
               wait: animation.wait,
               type: animation.type,
+              label: animation.label,
               textures: [texture],
             };
           }
