@@ -18,6 +18,8 @@ export type PixiSceneHandle = {
   addSpritesIntoScene: (spriteSheets: Array<SpriteSheet>) => Promise<void>;
   destroyScene: () => void;
   resetScene: () => Promise<void>;
+  resizeScene: (args: { width: number; height: number }) => void;
+  setSceneScale: (percentage: number) => void;
 };
 
 export const PixiScene = forwardRef<PixiSceneHandle, PixiSceneProps>(
@@ -35,6 +37,11 @@ export const PixiScene = forwardRef<PixiSceneHandle, PixiSceneProps>(
         }
         appRef.current = null;
       }
+    };
+
+    const resizeScene: PixiSceneHandle['resizeScene'] = (args) => {
+      if (appRef.current === null) return;
+      appRef.current.renderer.resize(args.width, args.height);
     };
 
     const startScene = async () => {
@@ -160,6 +167,12 @@ export const PixiScene = forwardRef<PixiSceneHandle, PixiSceneProps>(
       mountedRef.current = true;
     };
 
+    const setSceneScale: PixiSceneHandle['setSceneScale'] = (percentage) => {
+      if (appRef.current === null) return;
+      const scaleFactor = 1 * (percentage / 100);
+      appRef.current.stage.scale.set(scaleFactor);
+    };
+
     const unmount = () => {
       destroyScene();
       removeSpritesEventListeners();
@@ -181,7 +194,15 @@ export const PixiScene = forwardRef<PixiSceneHandle, PixiSceneProps>(
       addSpritesIntoScene,
       destroyScene,
       resetScene,
+      resizeScene,
+      setSceneScale,
     }));
+
+    useEffect(() => {
+      if (options?.width && options?.height) {
+        resizeScene({ width: options.width, height: options.height });
+      }
+    }, [options?.width, options?.height]);
 
     useEffect(() => {
       mount();

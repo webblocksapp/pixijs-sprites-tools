@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { PixiScene, PixiSceneHandle } from '.';
 import { FrameType, KeyCode, SpriteSheet } from 'pixijs-sprites-tools';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const meta: Meta<typeof PixiScene> = {
   title: 'Layout Components/PixiScene',
@@ -172,6 +172,89 @@ export const Overview: Story = {
         ref={pixiSceneRef}
         options={{ width: 300, height: 300, background: 'pink' }}
       />
+    );
+  },
+};
+
+type SceneData = { width: number; height: number; zoom: number };
+
+export const SceneConfig: Story = {
+  render: () => {
+    const pixiSceneRef = useRef<PixiSceneHandle>(null);
+    const [data, setData] = useState<SceneData>({
+      width: 800,
+      height: 600,
+      zoom: 100,
+    });
+
+    const onInput: React.FormEventHandler<HTMLInputElement> = (event) => {
+      const { name, value } = event.currentTarget;
+      setData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    };
+
+    const updateData = (data: Partial<SceneData>) => {
+      setData((prev) => ({ ...prev, ...data }));
+    };
+
+    useEffect(() => {
+      pixiSceneRef.current?.addSpritesIntoScene([SPRITE_SHEET_1]);
+    }, []);
+
+    return (
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
+        <form>
+          <div>
+            <label>Width</label>
+            <input
+              type="number"
+              onInput={onInput}
+              name="width"
+              value={data.width}
+            />
+          </div>
+          <div>
+            <label>Height</label>
+            <input
+              type="number"
+              onInput={onInput}
+              name="height"
+              value={data.height}
+            />
+          </div>
+          <div></div>
+          <div></div>
+        </form>
+        <div
+          style={{
+            overflow: 'auto',
+            position: 'relative',
+            width: 800,
+            height: 600,
+            border: '1px solid black',
+          }}
+        >
+          <div style={{ display: 'flex' }}>
+            <button onClick={() => updateData({ zoom: data.zoom + 10 })}>
+              Zoom in
+            </button>
+            <button onClick={() => updateData({ zoom: data.zoom - 10 })}>
+              Zoom out
+            </button>
+          </div>
+          <PixiScene
+            ref={pixiSceneRef}
+            options={{
+              width: data.width,
+              height: data.height,
+              background: 'pink',
+            }}
+            style={{ zoom: `${data.zoom}%` }}
+          />
+        </div>
+      </div>
     );
   },
 };
