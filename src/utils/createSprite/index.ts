@@ -1,5 +1,4 @@
-import { FrameType, KeyCode } from '@constants/enum';
-import { Direction } from '@interfaces/Direction';
+import { AnimationType, Direction, KeyCode } from '@constants/enum';
 import { Animation } from '@interfaces/Animation';
 import { SpriteSheet } from '@interfaces/SpriteSheet';
 import { animationDurationInMs } from '@utils/animationDuration';
@@ -222,7 +221,7 @@ export const createSprite = (
         state.currentAnimation.speed
       );
 
-      if (state.currentAnimation.type === FrameType.Action) {
+      if (state.currentAnimation.type === AnimationType.Action) {
         setWaitingAnimation(true);
         const { textures, speed } = state.currentAnimation;
         const animationDuration = animationDurationInMs({

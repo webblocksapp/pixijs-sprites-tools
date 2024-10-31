@@ -1,5 +1,4 @@
-import { Direction } from '@interfaces/Direction';
-import { FrameType } from '@constants/enum';
+import { AnimationType, Direction } from '@constants/enum';
 import { Texture } from 'pixi.js';
 
 export type Animation = {
@@ -10,7 +9,7 @@ export type Animation = {
   label?: string;
   default: boolean;
   speed: number;
-  type: FrameType;
+  type: AnimationType;
   xDisplacement?: number;
   yDisplacement?: number;
 };

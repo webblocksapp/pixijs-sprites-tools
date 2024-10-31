@@ -1,5 +1,4 @@
 export * from './Asset';
-export * from './Direction';
 export * from './Animation';
 export * from './FramesMap';
 export * from './ImageInfo';

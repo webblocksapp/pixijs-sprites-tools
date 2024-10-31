@@ -105,8 +105,15 @@ export enum KeyCode {
   ContextMenu = 'ContextMenu',
 }
 
-export enum FrameType {
+export enum AnimationType {
   Action = 'Action',
   Movement = 'Movement',
   Custom = 'Custom',
+}
+
+export enum Direction {
+  Right = 'right',
+  Left = 'left',
+  Up = 'up',
+  Down = 'down',
 }
