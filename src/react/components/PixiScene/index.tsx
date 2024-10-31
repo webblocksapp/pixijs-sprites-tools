@@ -12,6 +12,7 @@ export interface PixiSceneProps {
   options?: Partial<ApplicationOptions>;
   style?: React.CSSProperties;
   spriteAutoSize?: boolean;
+  disableSpritesDisplacement?: boolean;
 }
 
 export type PixiSceneHandle = {
@@ -24,7 +25,16 @@ export type PixiSceneHandle = {
 };
 
 export const PixiScene = forwardRef<PixiSceneHandle, PixiSceneProps>(
-  ({ options, style, alwaysKeepKeyboardEvents, spriteAutoSize }, ref) => {
+  (
+    {
+      options,
+      style,
+      alwaysKeepKeyboardEvents,
+      spriteAutoSize,
+      disableSpritesDisplacement = false,
+    },
+    ref
+  ) => {
     const pixiContainer = useRef<HTMLDivElement>(null);
     const appRef = useRef<Application | null>(null);
     const spritesRef = useRef<Array<Sprite>>([]);
@@ -194,22 +204,26 @@ export const PixiScene = forwardRef<PixiSceneHandle, PixiSceneProps>(
 
     const getSprites: PixiSceneHandle['getSprites'] = () => spritesRef.current;
 
-    const initGameLoop = () => {
-      appRef.current?.ticker.add(() => {
-        for (const sprite of spritesRef.current) {
-          const { anim } = sprite.data;
-          const { xDisplacement, yDisplacement } =
-            sprite.data.currentAnimation || {};
+    const addSpritesDisplacement = () => {
+      for (const sprite of spritesRef.current) {
+        const { anim } = sprite.data;
+        const { xDisplacement, yDisplacement } =
+          sprite.data.currentAnimation || {};
 
-          if (anim) {
-            if (xDisplacement) {
-              anim.x += xDisplacement;
-            }
-            if (yDisplacement) {
-              anim.y += yDisplacement;
-            }
+        if (anim) {
+          if (xDisplacement) {
+            anim.x += Number(xDisplacement);
+          }
+          if (yDisplacement) {
+            anim.y += Number(yDisplacement);
           }
         }
+      }
+    };
+
+    const initGameLoop = () => {
+      appRef.current?.ticker.add(() => {
+        !disableSpritesDisplacement && addSpritesDisplacement();
       });
     };
 

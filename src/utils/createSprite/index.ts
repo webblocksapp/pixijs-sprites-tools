@@ -21,7 +21,6 @@ export const createSprite = (
     onKeyLogsChange: ((keys: Array<string>) => void) | undefined;
     prevPressedKey: string | undefined;
     lastPressedKey: string | undefined;
-    displacementId: NodeJS.Timeout | undefined;
   } = {
     animations: [],
     keyLogs: [],
@@ -32,7 +31,6 @@ export const createSprite = (
     onKeyLogsChange: undefined,
     prevPressedKey: undefined,
     lastPressedKey: undefined,
-    displacementId: undefined,
   };
 
   const createTextureFromImageUrl = (url: string): Promise<Texture> => {
@@ -63,9 +61,6 @@ export const createSprite = (
 
   const createTextureImageUrl = (imageUrl: string) => {
     if (webDomain && urlIsRelative(imageUrl)) {
-      console.log(
-        `${webDomain.replace(/\/$/, '')}/${imageUrl.replace(/^\//, '')}`
-      );
       return `${webDomain.replace(/\/$/, '')}/${imageUrl.replace(/^\//, '')}`;
     }
     return imageUrl;

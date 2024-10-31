@@ -1,6 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { PixiScene, PixiSceneHandle } from '.';
-import { FrameType, KeyCode, SpriteSheet } from 'pixijs-sprites-tools';
+import {
+  AnimationType,
+  Direction,
+  KeyCode,
+  SpriteSheet,
+} from 'pixijs-sprites-tools';
 import { useEffect, useRef, useState } from 'react';
 
 const meta: Meta<typeof PixiScene> = {
@@ -12,8 +17,6 @@ type Story = StoryObj<typeof PixiScene>;
 export default meta;
 
 const SPRITE_SHEET_1: SpriteSheet = {
-  id: '1',
-  name: 'Shinobi',
   assets: [
     {
       label: 'Walk',
@@ -59,19 +62,19 @@ const SPRITE_SHEET_1: SpriteSheet = {
         {
           label: 'Walk right',
           keysCodesCombination: KeyCode.D,
-          direction: 'right',
+          direction: Direction.Right,
           speed: 0.2,
           default: false,
-          type: FrameType.Movement,
+          type: AnimationType.Movement,
           xDisplacement: 5,
         },
         {
           label: 'Walk left',
           keysCodesCombination: KeyCode.A,
-          direction: 'left',
+          direction: Direction.Left,
           speed: 0.2,
           default: false,
-          type: FrameType.Movement,
+          type: AnimationType.Movement,
           xDisplacement: -5,
         },
       ],
@@ -114,8 +117,8 @@ const SPRITE_SHEET_1: SpriteSheet = {
         {
           speed: 0.2,
           default: true,
-          type: FrameType.Action,
-          direction: 'left',
+          type: AnimationType.Action,
+          direction: Direction.Left,
         },
       ],
     },
@@ -156,7 +159,7 @@ const SPRITE_SHEET_1: SpriteSheet = {
           speed: 0.2,
           default: false,
           wait: true,
-          type: FrameType.Action,
+          type: AnimationType.Action,
         },
       ],
     },
