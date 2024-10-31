@@ -165,6 +165,7 @@ export const PixiScene = forwardRef<PixiSceneHandle, PixiSceneProps>(
 
     const mount = async () => {
       await startScene();
+      initGameLoop();
       mountedRef.current = true;
     };
 
@@ -192,6 +193,25 @@ export const PixiScene = forwardRef<PixiSceneHandle, PixiSceneProps>(
     };
 
     const getSprites: PixiSceneHandle['getSprites'] = () => spritesRef.current;
+
+    const initGameLoop = () => {
+      appRef.current?.ticker.add(() => {
+        for (const sprite of spritesRef.current) {
+          const { anim } = sprite.data;
+          const { xDisplacement, yDisplacement } =
+            sprite.data.currentAnimation || {};
+
+          if (anim) {
+            if (xDisplacement) {
+              anim.x += xDisplacement;
+            }
+            if (yDisplacement) {
+              anim.y += yDisplacement;
+            }
+          }
+        }
+      });
+    };
 
     useImperativeHandle(ref, () => ({
       addSpritesIntoScene,

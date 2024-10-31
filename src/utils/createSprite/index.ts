@@ -257,7 +257,10 @@ export const createSprite = (
 
   const setDefaultAnimation = () => {
     const animation = state.animations.find((item) => item.default);
-    if (animation) setAnimation(animation.textures, animation.speed);
+    if (animation) {
+      setAnimation(animation.textures, animation.speed);
+      state.currentAnimation = animation;
+    }
   };
 
   const getLastKey = () => {
