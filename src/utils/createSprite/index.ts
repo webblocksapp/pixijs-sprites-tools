@@ -5,7 +5,6 @@ import { SpriteSheet } from '@interfaces/SpriteSheet';
 import { animationDurationInMs } from '@utils/animationDuration';
 import { urlIsRelative } from '@utils/urlIsRelative';
 import { AnimatedSprite, Spritesheet, Texture } from 'pixi.js';
-import { v4 as uuid } from 'uuid';
 
 export const createSprite = (
   sheet: SpriteSheet,
@@ -315,8 +314,6 @@ export const createSprite = (
   };
 
   return {
-    id: sheet.id || uuid(),
-    name: sheet.name,
     initialize,
     initEventListeners,
     removeEventListeners,
