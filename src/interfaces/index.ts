@@ -1,6 +1,6 @@
 export * from './Asset';
 export * from './Direction';
-export * from './Frame';
+export * from './Animation';
 export * from './FramesMap';
 export * from './ImageInfo';
 export * from './Sprite';

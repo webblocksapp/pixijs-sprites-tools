@@ -63,6 +63,7 @@ const SPRITE_SHEET_1: SpriteSheet = {
           speed: 0.2,
           default: false,
           type: FrameType.Movement,
+          xDisplacement: 5,
         },
         {
           label: 'Walk left',
@@ -71,6 +72,7 @@ const SPRITE_SHEET_1: SpriteSheet = {
           speed: 0.2,
           default: false,
           type: FrameType.Movement,
+          xDisplacement: -5,
         },
       ],
     },

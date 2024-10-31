@@ -20,6 +20,7 @@ export type PixiSceneHandle = {
   resetScene: () => Promise<void>;
   resizeScene: (args: { width: number; height: number }) => void;
   setSceneScale: (percentage: number) => void;
+  getSprites: () => Array<Sprite>;
 };
 
 export const PixiScene = forwardRef<PixiSceneHandle, PixiSceneProps>(
@@ -190,12 +191,15 @@ export const PixiScene = forwardRef<PixiSceneHandle, PixiSceneProps>(
       removeSpritesEventListeners();
     };
 
+    const getSprites: PixiSceneHandle['getSprites'] = () => spritesRef.current;
+
     useImperativeHandle(ref, () => ({
       addSpritesIntoScene,
       destroyScene,
       resetScene,
       resizeScene,
       setSceneScale,
+      getSprites,
     }));
 
     useEffect(() => {

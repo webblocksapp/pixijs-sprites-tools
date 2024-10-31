@@ -1,6 +1,6 @@
 import { FrameType, KeyCode } from '@constants/enum';
 import { Direction } from '@interfaces/Direction';
-import { Frame } from '@interfaces/Frame';
+import { Animation } from '@interfaces/Animation';
 import { SpriteSheet } from '@interfaces/SpriteSheet';
 import { animationDurationInMs } from '@utils/animationDuration';
 import { urlIsRelative } from '@utils/urlIsRelative';
@@ -14,21 +14,18 @@ export const createSprite = (
   const { webDomain } = sheet;
   const { debug } = params || {};
   const state: {
-    id: string;
-    name: string;
-    frames: Array<Frame>;
+    animations: Array<Animation>;
     keyLogs: Array<string>;
     anim: AnimatedSprite | undefined;
     direction: Direction | undefined;
-    currentAnimation: Frame | undefined;
+    currentAnimation: Animation | undefined;
     waitingAnimation: boolean;
     onKeyLogsChange: ((keys: Array<string>) => void) | undefined;
     prevPressedKey: string | undefined;
     lastPressedKey: string | undefined;
+    displacementId: NodeJS.Timeout | undefined;
   } = {
-    id: sheet.id || uuid(),
-    name: sheet.name,
-    frames: [],
+    animations: [],
     keyLogs: [],
     anim: undefined,
     direction: undefined,
@@ -37,6 +34,7 @@ export const createSprite = (
     onKeyLogsChange: undefined,
     prevPressedKey: undefined,
     lastPressedKey: undefined,
+    displacementId: undefined,
   };
 
   const createTextureFromImageUrl = (url: string): Promise<Texture> => {
@@ -102,25 +100,24 @@ export const createSprite = (
     return await Promise.all(promises);
   };
 
-  const generateFrames = async () => {
+  const generateAnimations = async () => {
     const assets = await loadAssets();
-    const frames: Frame[] = [];
+    const animations: Animation[] = [];
     let counter = 0;
 
     for (let i = 0; i < sheet.assets.length; i++) {
-      const animations = sheet.assets[i].animations;
       const asset = assets[i];
 
       if (asset === undefined) continue;
 
-      for (const animation of animations) {
-        const frameKeys = Object.keys(asset);
-        for (const frameKey of frameKeys) {
-          const texture = asset[frameKey];
-          if (frames[counter]) {
-            frames[counter].textures.push(texture);
+      for (const animation of sheet.assets[i].animations) {
+        const animationKeys = Object.keys(asset);
+        for (const animationKey of animationKeys) {
+          const texture = asset[animationKey];
+          if (animations[counter]) {
+            animations[counter].textures.push(texture);
           } else {
-            frames[counter] = {
+            animations[counter] = {
               keysCodesCombination: animation.keysCodesCombination,
               speed: animation.speed,
               default: animation.default,
@@ -128,6 +125,8 @@ export const createSprite = (
               wait: animation.wait,
               type: animation.type,
               label: animation.label,
+              xDisplacement: animation.xDisplacement,
+              yDisplacement: animation.yDisplacement,
               textures: [texture],
             };
           }
@@ -137,7 +136,7 @@ export const createSprite = (
       }
     }
 
-    state.frames = frames;
+    state.animations = animations;
   };
 
   const flipSprite = (direction: Direction | undefined) => {
@@ -156,7 +155,7 @@ export const createSprite = (
   };
 
   const findAnimation = (keysCodesCombination: string) => {
-    return state.frames.find(
+    return state.animations.find(
       (item) => item.keysCodesCombination === keysCodesCombination
     );
   };
@@ -257,7 +256,7 @@ export const createSprite = (
   };
 
   const setDefaultAnimation = () => {
-    const animation = state.frames.find((item) => item.default);
+    const animation = state.animations.find((item) => item.default);
     if (animation) setAnimation(animation.textures, animation.speed);
   };
 
@@ -285,8 +284,8 @@ export const createSprite = (
   };
 
   const initialize = async () => {
-    await generateFrames();
-    const defaultFrames = state.frames.find((item) => item.default);
+    await generateAnimations();
+    const defaultFrames = state.animations.find((item) => item.default);
     if (defaultFrames === undefined) {
       throw new Error('No default animation assigned inside the SpriteSheet.');
     }
@@ -313,6 +312,8 @@ export const createSprite = (
   };
 
   return {
+    id: sheet.id || uuid(),
+    name: sheet.name,
     initialize,
     initEventListeners,
     removeEventListeners,

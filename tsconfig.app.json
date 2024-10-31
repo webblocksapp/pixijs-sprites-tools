@@ -16,6 +16,7 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "baseUrl": "./",
+    "types": ["node"],
     "paths": {
       "@api-clients/*": ["src/api-clients/*"],
       "@assets/*": ["src/assets/*"],

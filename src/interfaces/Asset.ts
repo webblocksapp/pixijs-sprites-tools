@@ -1,18 +1,9 @@
-import { FrameType } from '@constants/enum';
-import { Direction } from '@interfaces/Direction';
+import { Animation } from '@interfaces/Animation';
 import { FramesMap } from '@interfaces/FramesMap';
 
 export type Asset = {
   id?: string;
   label: string;
   framesMap: FramesMap | undefined;
-  animations: Array<{
-    direction?: Direction;
-    keysCodesCombination?: string;
-    wait?: boolean;
-    label?: string;
-    default: boolean;
-    speed: number;
-    type: FrameType;
-  }>;
+  animations: Array<Omit<Animation, 'textures'>>;
 };
