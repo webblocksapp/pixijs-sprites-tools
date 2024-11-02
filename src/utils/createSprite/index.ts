@@ -9,7 +9,7 @@ export const createSprite = (
   sheet: SpriteSheet,
   params?: { debug?: boolean }
 ) => {
-  const { webDomain } = sheet;
+  const { webDomain, xPosition, yPosition } = sheet;
   const { debug } = params || {};
   const state: {
     animations: Array<Animation>;
@@ -21,6 +21,8 @@ export const createSprite = (
     onKeyLogsChange: ((keys: Array<string>) => void) | undefined;
     prevPressedKey: string | undefined;
     lastPressedKey: string | undefined;
+    xPosition: number | undefined;
+    yPosition: number | undefined;
   } = {
     animations: [],
     keyLogs: [],
@@ -31,6 +33,8 @@ export const createSprite = (
     onKeyLogsChange: undefined,
     prevPressedKey: undefined,
     lastPressedKey: undefined,
+    xPosition,
+    yPosition,
   };
 
   const createTextureFromImageUrl = (url: string): Promise<Texture> => {

@@ -17,6 +17,8 @@ type Story = StoryObj<typeof PixiScene>;
 export default meta;
 
 const SPRITE_SHEET_1: SpriteSheet = {
+  xPosition: 100,
+  yPosition: 100,
   assets: [
     {
       label: 'Walk',

@@ -1,4 +1,4 @@
-import { FrameType, KeyCode } from '@constants/enum';
+import { AnimationType, Direction, KeyCode } from '@constants/enum';
 import { SpriteSheet } from '@interfaces/SpriteSheet';
 
 export const SHINOBI_SPRITE: SpriteSheet = {
@@ -44,18 +44,18 @@ export const SHINOBI_SPRITE: SpriteSheet = {
         {
           label: 'Walk right',
           keysCodesCombination: KeyCode.D,
-          direction: 'right',
+          direction: Direction.Right,
           speed: 0.2,
           default: false,
-          type: FrameType.Movement,
+          type: AnimationType.Movement,
         },
         {
           label: 'Walk left',
           keysCodesCombination: KeyCode.A,
-          direction: 'left',
+          direction: Direction.Left,
           speed: 0.2,
           default: false,
-          type: FrameType.Movement,
+          type: AnimationType.Movement,
         },
       ],
     },
@@ -94,7 +94,7 @@ export const SHINOBI_SPRITE: SpriteSheet = {
         {
           speed: 0.2,
           default: true,
-          type: FrameType.Action,
+          type: AnimationType.Action,
         },
       ],
     },
@@ -132,7 +132,7 @@ export const SHINOBI_SPRITE: SpriteSheet = {
           speed: 0.2,
           default: false,
           wait: true,
-          type: FrameType.Action,
+          type: AnimationType.Action,
         },
       ],
     },
@@ -414,18 +414,18 @@ export const HANDMADE_WALKER_SPRITE: SpriteSheet = {
         {
           label: 'Walk right',
           keysCodesCombination: KeyCode.D,
-          direction: 'right',
+          direction: Direction.Right,
           speed: 0.4,
           default: true,
-          type: FrameType.Movement,
+          type: AnimationType.Movement,
         },
         {
           label: 'Walk left',
           keysCodesCombination: KeyCode.A,
-          direction: 'left',
+          direction: Direction.Left,
           speed: 0.4,
           default: false,
-          type: FrameType.Movement,
+          type: AnimationType.Movement,
         },
       ],
     },

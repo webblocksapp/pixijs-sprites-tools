@@ -136,8 +136,10 @@ export const PixiScene = forwardRef<PixiSceneHandle, PixiSceneProps>(
         for (const sprite of spritesRef.current) {
           if (sprite.data.anim === undefined) continue;
           appRef.current.stage.addChild(sprite.data.anim);
-          sprite.data.anim.x = appRef.current!.screen.width / 2;
-          sprite.data.anim.y = appRef.current!.screen.height / 2;
+          sprite.data.anim.x =
+            sprite.data.xPosition ?? appRef.current!.screen.width / 2;
+          sprite.data.anim.y =
+            sprite.data.yPosition ?? appRef.current!.screen.height / 2;
           spriteAutoSize && resizeSpriteToScene(sprite);
         }
       }
